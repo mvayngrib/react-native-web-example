@@ -35,7 +35,7 @@ module.exports = {
     config.paths.index
   ]: [
     'webpack-dev-server/client?http://' + IP + ':' + PORT,
-    'webpack/hot/only-dev-server',
+    // 'webpack/hot/only-dev-server',
     config.paths.index,
   ],
   output: {
@@ -52,9 +52,12 @@ module.exports = {
         'NODE_ENV': JSON.stringify(isProd? PROD: DEV),
       }
     }),
-    isProd? new webpack.ProvidePlugin({
+    new webpack.ProvidePlugin({
       React: "react"
-    }): new webpack.HotModuleReplacementPlugin(),
+    }),
+    // isProd? new webpack.ProvidePlugin({
+    //   React: "react"
+    // }): new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
     new HtmlPlugin(),
   ],
@@ -64,9 +67,9 @@ module.exports = {
       loader: 'json',
     }, {
       test: /\.jsx?$/,
-      loaders: ['react-hot', 'babel?stage=1'],
-      include: [config.paths.src],
-      exclude: [/node_modules/]
+      loaders: ['babel?stage=1'],
+      include: [config.paths.src, /node_modules\/tcomb-form-native.*/], ///node_modules\/tcomb\-form\-native/],
+      // exclude: [/node_modules\/(^tcomb)/]
     }, ]
   }
 };
