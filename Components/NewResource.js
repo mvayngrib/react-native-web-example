@@ -459,26 +459,18 @@ class NewResource extends Component {
       // Actions.addItem(params)
   }
   postForms() {
-    let providerHandle = 'safe'
     let serverUrl = window.location.pathname + '/store'  //'http://localhost:44444/' + providerHandle + '/store'
-    let forms = this.props.forms // but not empty obviously
-    var body = {}
-    forms.forEach((f) => { body[f[constants.TYPE]] = f })
+    let body = this.props.forms
     return fetch(serverUrl, {
       method: 'POST',
       mode: 'cors',
       redirect: 'follow',
-      body: body,
+      body: JSON.stringify(body),
       headers: new Headers({
         'Content-Type': 'application/json'
       })
     })
-    .then((res) => {
-      return res.text()
-    })
-    .then(function (hash) {
-      // make a QR code out of: serverUrl + '/' + hash
-    })
+    .then(res => res.text())
   }
   // HACK: the value for property of the type that is subClassOf Enum is set on resource
   // and it is different from what tcomb sets in the text field
