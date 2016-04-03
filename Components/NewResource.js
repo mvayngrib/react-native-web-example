@@ -460,7 +460,7 @@ class NewResource extends Component {
   }
   postForms() {
     let providerHandle = 'safe'
-    let serverUrl = 'http://localhost:44444/' + providerHandle + '/store'
+    let serverUrl = window.location.pathname + '/store'  //'http://localhost:44444/' + providerHandle + '/store'
     let forms = this.props.forms // but not empty obviously
     var body = {}
     forms.forEach((f) => { body[f[constants.TYPE]] = f })
