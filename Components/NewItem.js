@@ -227,7 +227,7 @@ class NewItem extends Component {
         //   onSelect={this.onSelect.bind(this)} />
     return (
       <View style={styles.container}>
-        <View style={{marginLeft: 10, marginRight: 20, marginBottom: 15 }}>
+        <View style={styles.content}>
           <Form ref='form' type={Model} options={options} />
         </View>
         {error}
@@ -249,7 +249,16 @@ reactMixin(NewItem.prototype, NewResourceMixin);
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 64
+    marginTop: 64,
+    backgroundColor: '#f7f7f7'
+  },
+  content: {
+    width: 600,
+    alignSelf: 'center',
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    marginHorizontal: 10,
+    backgroundColor: '#ffffff'
   },
   err: {
     paddingVertical: 10,

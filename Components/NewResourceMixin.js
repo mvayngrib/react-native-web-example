@@ -199,6 +199,7 @@ var NewResourceMixin = {
           //           required: !maybe,
           //           keyboard: props[p].keyboard ||  (type === 'number' ? 'numeric' : 'default'),
           //         })
+          options.fields[p].enablesReturnKeyAutomatically = true
 
           options.fields[p].onSubmitEditing = onSubmitEditing.bind(this);
           if (onEndEditing)
@@ -490,8 +491,8 @@ var NewResourceMixin = {
   //   }
   // },
   myCustomTemplate(params) {
-    var labelStyle = {color: '#b1b1b1', fontFamily: 'Times Roman', fontSize: 20, paddingLeft: 10, paddingBottom: 10};
-    var textStyle = {color: this.state.isRegistration ? '#ffffff' : '#000000', fontFamily: 'Times Roman', fontSize: 20, paddingLeft: 10, paddingBottom: 10};
+    var labelStyle = {color: '#b1b1b1', fontSize: 18, paddingLeft: 10, paddingBottom: 10};
+    var textStyle = {color: this.state.isRegistration ? '#ffffff' : '#000000', fontSize: 18, paddingLeft: 10, paddingBottom: 10};
     var resource = /*this.props.resource ||*/ this.state.resource
     var label, style
     var propLabel, propName
@@ -522,13 +523,13 @@ var NewResourceMixin = {
             ? this.state.missedRequiredOrErrorValue[prop.name]
             : null
     var error = err
-              ? <View style={{paddingLeft: 5, backgroundColor: 'transparent'}}>
+              ? <View style={{paddingLeft: 5, marginTop: 15, backgroundColor: 'transparent'}}>
                   <Text style={{fontSize: 14, color: this.state.isRegistration ? '#eeeeee' : '#a94442'}}>This field is required</Text>
                 </View>
               : <View />
     return (
-      <View style={styles.chooserContainer} key={this.getNextKey()} ref={prop.name}>
-        <TouchableHighlight underlayColor='transparent' onPress={this.chooser.bind(this, prop, params.prop)}>
+      <View style={[styles.chooserContainer, err ? {borderBottomColor: '#a94442'} : {borderBottomColor: '#cccccc'}]} key={this.getNextKey()} ref={prop.name}>
+        <TouchableHighlight underlayColor='transparent' onPress={this.chooser.bind(this, prop, params.prop)} style={{marginBottom: -10}}>
           <View style={{ position: 'relative'}}>
             {propLabel}
             <View style={styles.chooserContentStyle}>
@@ -868,24 +869,44 @@ var styles = StyleSheet.create({
     marginBottom: 10,
     flex: 1
   },
+
   chooserContainer: {
-    height: 60,
+    height: 46,
     borderColor: '#ffffff',
     borderBottomColor: '#cccccc',
     borderBottomWidth: 0.5,
-    borderRadius: 4,
     // marginLeft: 10,
     marginBottom: 10,
     flex: 1
   },
   chooserContentStyle: {
     justifyContent: 'space-between',
-    fontFamily: 'Times Roman',
     flexDirection: 'row',
-    paddingVertical: 5,
-    fontFamily: 'none',
+    paddingBottom: 5,
     borderRadius: 4
   },
+
+  // chooserContainer: {
+  //   height: 60,
+  //   // borderColor: '#ffffff',
+  //   // borderBottomColor: '#cccccc',
+  //   // borderBottomWidth: 0.5,
+  //   // borderRadius: 4,
+  //   // marginLeft: 10,
+  //   // marginBottom: 10,
+  //   flex: 1
+  // },
+  // chooserContentStyle: {
+  //   justifyContent: 'space-between',
+  //   flexDirection: 'row',
+  //   paddingVertical: 5,
+  //   fontFamily: 'none',
+  //   borderColor: '#ffffff',
+  //   borderBottomColor: '#cccccc',
+  //   borderBottomWidth: 0.5,
+  //   borderRadius: 4,
+  //   marginBottom: 5
+  // },
   labelInput: {
     color: '#cccccc',
   },

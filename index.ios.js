@@ -272,7 +272,8 @@ var styles = StyleSheet.create({
     padding: 3,
     borderColor: '#ffffff',
     borderBottomColor: '#cccccc',
-    borderBottomWidth: 0.5
+    borderBottomWidth: 0.5,
+    backgroundColor: '#f7f7f7'
   },
   navBarText: {
     fontSize: 16,

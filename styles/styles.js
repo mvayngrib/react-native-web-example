@@ -9,10 +9,10 @@ var LABEL_COLOR = '#cccccc';
 var INPUT_COLOR = '#000000';
 var ERROR_COLOR = '#a94442';
 var HELP_COLOR = '#999999';
-var BORDER_COLOR = '#bbbbbb';
+var BORDER_COLOR = '#cccccc';
 var DISABLED_COLOR = '#777777';
 var DISABLED_BACKGROUND_COLOR = '#eeeeee';
-var FONT_SIZE = 20
+var FONT_SIZE = 18
 var HELP_FONT_SIZE = 14
 var LABEL_FONT_SIZE = 11
 
@@ -23,16 +23,18 @@ var stylesheet = Object.freeze({
   // the style applied to the container of all inputs
   formGroup: {
     normal: {
-      marginBottom: 10
+      marginBottom: 10,
+      fontFamily: 'Helvetica Neue, STHeiTi, sans-serif',
     },
     error: {
-      marginBottom: 10
+      marginBottom: 10,
+      fontFamily: 'Helvetica Neue, STHeiTi, sans-serif',
     }
   },
   controlLabel: {
     normal: {
       color: LABEL_COLOR,
-      fontSize: LABEL_FONT_SIZE,
+      fontSize: FONT_SIZE,
       marginBottom: 3,
       paddingLeft: 15,
       fontWeight: FONT_WEIGHT,
@@ -50,7 +52,7 @@ var stylesheet = Object.freeze({
   helpBlock: {
     normal: {
       color: HELP_COLOR,
-      fontSize: HELP_FONT_SIZE,
+      fontSize: FONT_SIZE,
       fontFamily: 'Helvetica Neue, STHeiTi, sans-serif',
       // marginLeft: 10,
       marginTop: 5
@@ -65,10 +67,12 @@ var stylesheet = Object.freeze({
     }
   },
   errorBlock: {
-    fontSize: FONT_SIZE,
+    fontSize: HELP_FONT_SIZE,
     fontFamily: 'Helvetica Neue, STHeiTi, sans-serif',
     marginBottom: 2,
-    color: ERROR_COLOR
+    borderColor: '#ffffff',
+    borderBottomColor: ERROR_COLOR,
+    color: ERROR_COLOR,
   },
   textbox: {
     normal: {
@@ -82,11 +86,11 @@ var stylesheet = Object.freeze({
       // textDecorationStyle: 'solid',
       // textDecorationColor: '#aaaaaa',
       // lineHeight: 5,
-      borderColor: BORDER_COLOR,
+      borderColor: '#ffffff',
       borderBottomColor: BORDER_COLOR,
-      borderTopColor: '#ffffff',
-      borderLeftColor: '#ffffff',
-      borderRightColor: '#ffffff',
+      // borderTopColor: '#ffffff',
+      // borderLeftColor: '#ffffff',
+      // borderRightColor: '#ffffff',
       borderWidth: 0.5,
       marginBottom: 0
     },
@@ -98,7 +102,8 @@ var stylesheet = Object.freeze({
       height: 36,
       padding: 7,
       borderRadius: 4,
-      borderColor: ERROR_COLOR,
+      borderColor: '#ffffff',
+      borderBottomColor: ERROR_COLOR,
       borderWidth: 1,
       marginBottom: 5
     },

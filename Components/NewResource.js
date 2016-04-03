@@ -4,15 +4,12 @@ var React = require('react-native');
 var utils = require('../utils/utils');
 var translate = utils.translate
 var NewItem = require('./NewItem');
-// var GridItemsList = require('./GridItemsList')
-// var PhotoView = require('./PhotoView');
+var qrcode = require('../utils/qrcode')
+var createHash = require('sha.js')
+var sha256 = createHash('sha256')
 var ResourceView = require('./ResourceView');
 var t = require('tcomb-form-native');
 var extend = require('extend');
-// var Actions = require('../Actions/Actions');
-// var Store = require('../Store/Store');
-// var Reflux = require('reflux');
-// var reactMixin = require('react-mixin');
 var Icon = require('react-native-vector-icons/Ionicons');
 var rStyles = require('../styles/registrationStyles');
 var NewResourceMixin = require('./NewResourceMixin');
@@ -363,7 +360,7 @@ class NewResource extends Component {
       var isDate = Object.prototype.toString.call(v) === '[object Date]'
       if (!v  ||  (isDate  &&  isNaN(v.getTime())))  {
         var prop = self.props.model.properties[p]
-        if (prop.items  &&  prop.items.backlink)
+        if (prop.items  &&  (prop.items.backlink || prop.name === 'photos'))
           return
         if ((prop.ref) ||  isDate  ||  prop.items) {
           if (resource && resource[p])
@@ -426,32 +423,62 @@ class NewResource extends Component {
     // if (this.props.additionalInfo)
     //   params.additionalInfo = additionalInfo
     this.props.forms.push(r)
-    if (this.props.forms.length !== this.props.product.forms.length) {
-      let m = utils.getModel(this.props.product.forms[this.props.forms.length])
-      this.props.navigator.replace({
-        component: NewResource,
-        rightButtonTitle: 'Done',
-        title: translate(m),
-        id: 4,
-        passProps: {
-          model: m,
-          product: this.props.product,
-          forms: this.props.forms
-        }
-      })
-    }
-    else {
-      this.props.navigator.replace({
-        component: ResourceList,
-        title: translate(this.props.product),
-        id: 10,
-        passProps: {
-          model: this.props.product
-        }
-      })
-    }
 
+    this.postForms()
+    .then((hash) => {
+      this.state.submitted = false
+      if (this.props.forms.length !== this.props.product.forms.length) {
+        let m = utils.getModel(this.props.product.forms[this.props.forms.length])
+        this.props.navigator.replace({
+          component: NewResource,
+          rightButtonTitle: 'Done',
+          title: translate(m),
+          id: 4,
+          qrcode: hash,
+          passProps: {
+            model: m,
+            product: this.props.product,
+            forms: this.props.forms
+          }
+        })
+      }
+      else {
+        this.props.navigator.replace({
+          component: ResourceList,
+          title: translate(this.props.product),
+          id: 10,
+          passProps: {
+            model: this.props.product
+          }
+        })
+      }
+    })
+    .catch((err) => {
+      this.state.submitted = false
+    })
       // Actions.addItem(params)
+  }
+  postForms() {
+    let providerHandle = 'safe'
+    let serverUrl = 'http://localhost:44444/' + providerHandle + '/store'
+    let forms = this.props.forms // but not empty obviously
+    var body = {}
+    forms.forEach((f) => { body[f[constants.TYPE]] = f })
+    return fetch(serverUrl, {
+      method: 'POST',
+      mode: 'cors',
+      redirect: 'follow',
+      body: body,
+      headers: new Headers({
+        'Content-Type': 'application/json'
+      })
+    })
+    .then((res) => {
+      return res.text()
+    })
+    .then(function (hash) {
+      // make a QR code out of: serverUrl + '/' + hash
+    })
   }
   // HACK: the value for property of the type that is subClassOf Enum is set on resource
   // and it is different from what tcomb sets in the text field
@@ -812,14 +839,21 @@ class NewResource extends Component {
     // var alert = this.state.err
     //           ? <Text style={{color: 'darkred', alignSelf: 'center',fontSize: 18}}>{this.state.err}</Text>
     //           : <View/>
-    var st = this.state.isRegistration
-           ? {marginHorizontal: DeviceHeight > 1000 ? 50 : 30, paddingTop: 30}
-           : {paddingRight: 15, paddingTop: 10, marginHorizontal: 10}
+    let qr = this.state.qr
+    // if (this.props.forms.length)
+    //   qr = sha256.update(this.props.forms, 'utf8').digest('hex')
+    var st = {paddingHorizontal: 15, marginHorizontal: 10}
+    if (qr)
+      st.marginTop = -180
+
 
     var content =
       <ScrollView style={style} ref='scrollView' {...this.scrollviewProps}>
         <View style={styles.container}>
-          {this.props.forms.length ? qrcode(this.props.forms, { width: 100, height: 100 }) : <View/>}
+          {qr ? <View style={{margin: 20}}>
+                  {qrcode(qr, { width: 140, height: 140})}
+                </View>
+              : <View/>}
           <View style={[styles.width, st]}>
             <Form ref='form' type={Model} options={options} value={data} onChange={this.onChange.bind(this)}/>
             {button}
@@ -1008,15 +1042,13 @@ page: {
     backgroundColor: '#ffffff'
   },
   noItemsText: {
-    fontSize: 20,
-    fontFamily: 'Times Roman',
+    fontSize: 18,
     color: '#b1b1b1',
     alignSelf: 'center',
     paddingLeft: 10
   },
   itemsText: {
     fontSize: 20,
-    fontFamily: 'Times Roman',
     color: '#000000',
     alignSelf: 'center',
     paddingLeft: 10
