@@ -450,7 +450,7 @@ class NewResource extends Component {
           title: translate(this.props.product),
           id: 10,
           passProps: {
-            model: this.props.product,
+            modelName: this.props.product.id,
             bankStyle: this.props.bankStyle
           }
         })
