@@ -534,7 +534,7 @@ var NewResourceMixin = {
             {propLabel}
             <View style={styles.chooserContentStyle}>
               <Text style={style}>{label}</Text>
-                <Text style={{color: '#a94442', fontSize: 14, marginRight: 5}}>{'>'}</Text>
+                <Text style={{color: (this.props.bankStyle  &&  this.props.bankStyle.LINK_COLOR) || '#a94442', fontSize: 14, marginRight: 5}}>{'>'}</Text>
             </View>
            {error}
           </View>
@@ -560,7 +560,7 @@ var NewResourceMixin = {
     var currentRoutes = this.props.navigator.getCurrentRoutes();
     this.props.navigator.push({
       title: translate(m), //m.title,
-      titleTextColor: '#7AAAC3',
+      // titleTextColor: '#7AAAC3',
       id: 10,
       component: ResourceList,
       backButtonTitle: translate('back'),
@@ -571,6 +571,7 @@ var NewResourceMixin = {
         prop:           prop,
         modelName:      propRef,
         resource:       resource,
+        bankStyle:      this.props.bankStyle,
         isRegistration: this.state.isRegistration,
         returnRoute:    currentRoutes[currentRoutes.length - 1],
         callback:       this.setChosenValue.bind(this),

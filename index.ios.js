@@ -48,7 +48,8 @@ class ReactNativeWebExample extends Component {
       passProps: {
         model: utils.getModel(m.forms[0]),
         product: m,
-        forms: []
+        forms: [],
+        bankStyle: window.Tradle.provider.style
       }
     }
     return (

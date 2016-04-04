@@ -434,10 +434,11 @@ class NewResource extends Component {
           rightButtonTitle: 'Done',
           title: translate(m),
           id: 4,
-          qrcode: hash,
           passProps: {
+            qrcode: hash + ':' + 'd0b3f6780215cb8adfb9524810599b4f1f6444ae', //window.Tradle.provider.bot._r,
             model: m,
             product: this.props.product,
+            bankStyle: this.props.bankStyle,
             forms: this.props.forms
           }
         })
@@ -448,7 +449,8 @@ class NewResource extends Component {
           title: translate(this.props.product),
           id: 10,
           passProps: {
-            model: this.props.product
+            model: this.props.product,
+            bankStyle: this.props.bankStyle
           }
         })
       }
@@ -556,6 +558,7 @@ class NewResource extends Component {
         resource: this.state.resource,
         parentMeta: this.props.parentMeta,
         onAddItem: this.onAddItem.bind(this),
+        bankStyle: this.props.bankStyle,
         currency: this.props.currency
       }
     });
@@ -673,7 +676,7 @@ class NewResource extends Component {
               counter =
                 <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                   <View style={{marginTop: 60, marginHorizontal: 5}}>
-                    <Text style={{color: '#a94442', fontSize: 18}}>{'+'}</Text>
+                    <Text style={{color: (this.props.bankStyle  &&  this.props.bankStyle.LINK_COLOR) || '#a94442', fontSize: 18}}>{'+'}</Text>
                   </View>
                 </View>;
                   // <Text>{resource[bl.name] ? resource[bl.name].length : ''}</Text>
@@ -697,7 +700,7 @@ class NewResource extends Component {
           //     </View>;
           // else
             counter = <View style={{paddingHorizontal: 5}}>
-                        <Text style={{color: '#a94442', fontSize: 18}}>{'+'}</Text>
+                        <Text style={{color: (this.props.bankStyle  &&  this.props.bankStyle.LINK_COLOR) || '#a94442', fontSize: 18}}>{'+'}</Text>
                       </View>
         }
       }
@@ -711,7 +714,7 @@ class NewResource extends Component {
         //     </View>;
         // else
           counter = <View style={{paddingHorizontal: 5}}>
-                        <Text style={{color: '#a94442', fontSize: 18}}>{'+'}</Text>
+                        <Text style={{color: (this.props.bankStyle  &&  this.props.bankStyle.LINK_COLOR) || '#a94442', fontSize: 18}}>{'+'}</Text>
                     </View>
       }
       var title = bl.title || utils.makeLabel(p)
@@ -831,19 +834,16 @@ class NewResource extends Component {
     // var alert = this.state.err
     //           ? <Text style={{color: 'darkred', alignSelf: 'center',fontSize: 18}}>{this.state.err}</Text>
     //           : <View/>
-    let qr = this.state.qr
-    // if (this.props.forms.length)
-    //   qr = sha256.update(this.props.forms, 'utf8').digest('hex')
     var st = {paddingHorizontal: 15, marginHorizontal: 10}
-    if (qr)
+    if (this.props.qrcode)
       st.marginTop = -180
 
 
     var content =
       <ScrollView style={style} ref='scrollView' {...this.scrollviewProps}>
         <View style={styles.container}>
-          {qr ? <View style={{margin: 20}}>
-                  {qrcode(qr, { width: 140, height: 140})}
+          {this.props.qrcode ? <View style={{margin: 20}}>
+                  {qrcode(this.props.qrcode, { width: 140, height: 140})}
                 </View>
               : <View/>}
           <View style={[styles.width, st]}>
