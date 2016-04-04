@@ -8,6 +8,7 @@ var qrcode = require('../utils/qrcode')
 var createHash = require('sha.js')
 var sha256 = createHash('sha256')
 var ResourceView = require('./ResourceView');
+var ResourceList = require('./ResourceList')
 var t = require('tcomb-form-native');
 var extend = require('extend');
 var Icon = require('react-native-vector-icons/Ionicons');
