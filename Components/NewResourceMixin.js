@@ -564,7 +564,8 @@ var NewResourceMixin = {
       id: 10,
       component: ResourceList,
       backButtonTitle: translate('back'),
-      sceneConfig: isFinancialProduct ? Navigator.SceneConfigs.FloatFromBottom : Navigator.SceneConfigs.FloatFromRight,
+      // sceneConfig: isFinancialProduct ? Navigator.SceneConfigs.FloatFromBottom : Navigator.SceneConfigs.FloatFromRight,
+      sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
       passProps: {
         filter:         filter,
         isChooser:      true,
