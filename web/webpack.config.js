@@ -50,6 +50,14 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify(isProd? PROD: DEV),
+      },
+      Tradle: {
+        provider: {
+          org: {
+            currency: '$'
+          },
+          style: {}
+        }
       }
     }),
     new webpack.ProvidePlugin({
@@ -59,7 +67,9 @@ module.exports = {
     //   React: "react"
     // }): new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
-    new HtmlPlugin(),
+    new HtmlPlugin({
+      template: 'index-template.html'
+    }),
   ],
   module: {
     loaders: [{
@@ -69,7 +79,7 @@ module.exports = {
       test: /\.jsx?$/,
       loaders: ['babel?stage=1'],
       include: [config.paths.src, /node_modules\/tcomb-form-native.*/], ///node_modules\/tcomb\-form\-native/],
-      // exclude: [/node_modules\/(^tcomb)/]
+      exclude: [/node_modules\/.*node_modules/]
     }, ]
   }
 };

@@ -1,9 +1,10 @@
 {
-  "name": "react-native-web-example",
-  "version": "0.0.1",
+  "name": "@tradle/web-example",
+  "version": "1.0.0",
   "scripts": {
     "start": "react-native start",
-    "postinstall": "./hack.js"
+    "postinstall": "./hack.js",
+    "prepublish": "react-web bundle"
   },
   "dependencies": {
     "@tradle/constants": "^2.0.3",
