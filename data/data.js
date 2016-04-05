@@ -291,10 +291,6 @@ var resources = [
 },
 {
   _t: "tradle.EnergyLabel",
-  energyLabel: "A"
-},
-{
-  _t: "tradle.EnergyLabel",
   energyLabel: "B"
 },
 {
