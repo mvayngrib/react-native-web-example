@@ -844,6 +844,7 @@ class NewResource extends Component {
     if (this.props.qrcode)
       st.marginTop = -180
 
+    st.boxShadow = '2px 2px 3px 2px #ccc'
 
     var content =
       <ScrollView style={style} ref='scrollView' {...this.scrollviewProps}>
@@ -1020,7 +1021,7 @@ class NewResource extends Component {
 reactMixin(NewResource.prototype, NewResourceMixin);
 
 var styles = StyleSheet.create({
-page: {
+  page: {
     flex: 1,
     position: 'absolute',
     bottom: 0,
@@ -1030,6 +1031,7 @@ page: {
   },
   container: {
     flex: 1,
+    paddingTop: 10,
     backgroundColor: '#f7f7f7'
     // width: 600,
     // alignSelf: 'center',
