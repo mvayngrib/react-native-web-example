@@ -586,19 +586,19 @@ class ResourceList extends Component {
     //   return <View/>
     var content;
     var model = utils.getModel(this.props.modelName)
-    if (this.state.dataSource.getRowCount() === 0              &&
-        model.subClassOf !== ENUM                              &&
-        this.props.modelName !== constants.TYPES.PROFILE       &&
-        this.props.modelName !== constants.TYPES.VERIFICATION  &&
-        this.props.modelName !== constants.TYPES.ORGANIZATION  &&
-        !this.props.isChooser                                  &&
-        (!model.subClassOf  ||  model.subClassOf !== ENUM)) {
-      content = <NoResources
-                  filter={this.state.filter}
-                  model={model}
-                  isLoading={this.state.isLoading}/>
-    }
-    else {
+    // if (this.state.dataSource.getRowCount() === 0              &&
+    //     model.subClassOf !== ENUM                              &&
+    //     this.props.modelName !== constants.TYPES.PROFILE       &&
+    //     this.props.modelName !== constants.TYPES.VERIFICATION  &&
+    //     this.props.modelName !== constants.TYPES.ORGANIZATION  &&
+    //     !this.props.isChooser                                  &&
+    //     (!model.subClassOf  ||  model.subClassOf !== ENUM)) {
+    //   content = <NoResources
+    //               filter={this.state.filter}
+    //               model={model}
+    //               isLoading={this.state.isLoading}/>
+    // }
+    // else {
       var model = utils.getModel(this.props.modelName)
       content = <ListView
           dataSource={this.state.dataSource}
@@ -612,7 +612,7 @@ class ResourceList extends Component {
           pageSize={20}
           scrollRenderAhead={10}
           showsVerticalScrollIndicator={false} />;
-    }
+    // }
     var model = utils.getModel(this.props.modelName);
     var Footer = this.renderFooter();
     var header = this.renderHeader();

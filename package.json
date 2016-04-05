@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "@tradle/constants": "^2.0.3",
-    "@tradle/models": "^4.6.0",
+    "@tradle/models": "^4.6.1",
     "deep-equal": "^1.0.1",
     "equal": "^0.1.1",
     "extend": "^3.0.0",

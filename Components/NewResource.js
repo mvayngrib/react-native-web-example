@@ -436,7 +436,7 @@ class NewResource extends Component {
           title: translate(m),
           id: 4,
           passProps: {
-            qrcode: hash + ':' + 'd0b3f6780215cb8adfb9524810599b4f1f6444ae', //window.Tradle.provider.bot._r,
+            qrcode: hash + ':' + Tradle.provider.bot, //window.Tradle.provider.bot._r,
             model: m,
             product: this.props.product,
             bankStyle: this.props.bankStyle,
@@ -463,7 +463,12 @@ class NewResource extends Component {
   }
   postForms() {
     let serverUrl = window.location.pathname + '/store'  //'http://localhost:44444/' + providerHandle + '/store'
-    let body = this.props.forms
+    let body = this.props.forms.slice()
+    body.unshift({
+      _t: constants.TYPES.SIMPLE_MESSAGE,
+      message: '[application for](tradle.MortgageProduct)'
+    })
+
     return fetch(serverUrl, {
       method: 'POST',
       mode: 'cors',
