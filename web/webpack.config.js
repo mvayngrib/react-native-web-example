@@ -51,14 +51,14 @@ module.exports = {
       'process.env': {
         'NODE_ENV': JSON.stringify(isProd? PROD: DEV),
       },
-      Tradle: {
-        provider: {
-          org: {
-            currency: '$'
-          },
-          style: {}
-        }
-      }
+      // Tradle: {
+      //   provider: {
+      //     org: {
+      //       currency: '$'
+      //     },
+      //     style: {}
+      //   }
+      // }
     }),
     new webpack.ProvidePlugin({
       React: "react"
