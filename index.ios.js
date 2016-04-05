@@ -49,7 +49,8 @@ class ReactNativeWebExample extends Component {
         model: utils.getModel(m.forms[0]),
         product: m,
         forms: [],
-        bankStyle: window.Tradle.provider.style
+        bankStyle: window.Tradle.provider.style,
+        currency: window.Tradle.provider.org.currency
       }
     }
     return (

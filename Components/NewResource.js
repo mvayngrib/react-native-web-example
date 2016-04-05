@@ -375,6 +375,8 @@ class NewResource extends Component {
     var err = this.validateProperties(json)
     for (var p in err)
       missedRequiredOrErrorValue[p] = err[p]
+    // Remove when floating-labels work
+    this.validateProperties(resource)
 
     if (!utils.isEmpty(missedRequiredOrErrorValue)) {
       this.state.submitted = false
@@ -440,6 +442,7 @@ class NewResource extends Component {
             model: m,
             product: this.props.product,
             bankStyle: this.props.bankStyle,
+            currency: this.props.currency,
             forms: this.props.forms
           }
         })

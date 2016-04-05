@@ -222,15 +222,20 @@ var resources = [
 },
 {
   _t: "tradle.KindOfHouse",
-  kindOfHouse:  "Semi-Detached"
-},
-{
-  _t: "tradle.KindOfHouse",
   kindOfHouse:  "Terraced house"
 },
 {
   _t: "tradle.KindOfHouse",
   kindOfHouse:  "Appartment"
+},
+{ _t: "tradle.MortgageGuarantee",
+  mortgageGuarantee: "No"
+},
+{ _t: "tradle.MortgageGuarantee",
+  mortgageGuarantee: "NHG"
+},
+{ _t: "tradle.MortgageGuarantee",
+  mortgageGuarantee: "Gemeente Garantie"
 },
 {
   _t: "tradle.KindOfObligation",
@@ -284,7 +289,6 @@ var resources = [
   _t: "tradle.PaymentPeriod",
   paymentPeriod: "Yearly"
 },
-
 {
   _t: "tradle.EnergyLabel",
   energyLabel: "A"

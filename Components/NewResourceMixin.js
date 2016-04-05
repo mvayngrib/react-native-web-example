@@ -342,6 +342,14 @@ var NewResourceMixin = {
   },
   onChangeTextValue(prop, value, event) {
     console.log(arguments)
+    if (prop.ref && prop.ref === constants.TYPES.MONEY) {
+      if (typeof value === 'string'  ||  typeof value === 'number')
+        value = {
+          value: value,
+          currency: CURRENCY_SYMBOL
+        }
+    }
+
     this.state.resource[prop.name] = value
     // this.setState({resource: this.state.resource})
     if (!this.floatingProps)
@@ -573,6 +581,7 @@ var NewResourceMixin = {
         modelName:      propRef,
         resource:       resource,
         bankStyle:      this.props.bankStyle,
+        currency:       this.props.currency,
         isRegistration: this.state.isRegistration,
         returnRoute:    currentRoutes[currentRoutes.length - 1],
         callback:       this.setChosenValue.bind(this),

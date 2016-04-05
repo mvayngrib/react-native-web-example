@@ -245,6 +245,8 @@ class ResourceList extends Component {
             rightButtonTitle: translate('done'),
             passProps: {
               model: m,
+              currency: this.props.currency,
+              bankStyle: this.props.bankStyle,
               resource: resource
             }
           },
@@ -311,6 +313,8 @@ class ResourceList extends Component {
         titleTextColor: '#7AAAC3',
         passProps: {
           model: utils.getModel(resource[constants.TYPE]),
+          currency: this.props.currency,
+          bankStyle: this.props.bankStyle,
           resource: me
         }
       };
@@ -355,6 +359,8 @@ class ResourceList extends Component {
           rightButtonTitle: translate('done'),
           passProps: {
             model: utils.getModel(resource[constants.TYPE]),
+            currency: this.props.currency,
+            bankStyle: this.props.bankStyle,
             resource: resource
           }
         },
@@ -527,7 +533,8 @@ class ResourceList extends Component {
       backButtonTitle: translate('back'),
       titleTextColor: '#7AAAC3',
       passProps: {
-        modelName: constants.TYPES.ORGANIZATION
+        modelName: constants.TYPES.ORGANIZATION,
+        currency: this.props.currency,
       }
     });
   }
@@ -572,6 +579,8 @@ class ResourceList extends Component {
       rightButtonTitle: translate('done'),
       passProps: {
         model: model,
+        currency: this.props.currency,
+        bankStyle: this.props.bankStyle,
         resource: r,
         // callback: () => Actions.list({
         //   modelName: this.props.modelName,
