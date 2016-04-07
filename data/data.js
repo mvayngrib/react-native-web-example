@@ -1,24 +1,27 @@
 'use strict'
 
+var stringify = require('json-stable-stringify')
+var sha256 = require('sha.js')('sha256')
+
 var resources = [
-{
-  _t: 'tradle.SecurityCode',
-  _z: '04e21cf6dc67f9c5430221031b433e1903ca5975dfd7338f338146a99202c86b',
-  code: '1234567',
-  organization: {
-    id: 'tradle.Organization_71e4b7cd6c11ab7221537275988f113a879029ea',
-    title: 'Rabobank'
-  }
-},
-{
-  _t: 'tradle.SecurityCode',
-  _z: '04e21cf6dc67f9c5430221031b433e1903ca5975dfd7338f338146a99202c87b',
-  code: '7654321',
-  organization: {
-    id: 'tradle.Organization_71e4b7cd6c11ab7221537275988f113a879029ea',
-    title: 'Rabobank'
-  }
-},
+// {
+//   _t: 'tradle.SecurityCode',
+//   _z: '04e21cf6dc67f9c5430221031b433e1903ca5975dfd7338f338146a99202c86b',
+//   code: '1234567',
+//   organization: {
+//     id: 'tradle.Organization_71e4b7cd6c11ab7221537275988f113a879029ea',
+//     title: 'Rabobank'
+//   }
+// },
+// {
+//   _t: 'tradle.SecurityCode',
+//   _z: '04e21cf6dc67f9c5430221031b433e1903ca5975dfd7338f338146a99202c87b',
+//   code: '7654321',
+//   organization: {
+//     id: 'tradle.Organization_71e4b7cd6c11ab7221537275988f113a879029ea',
+//     title: 'Rabobank'
+//   }
+// },
 {
   _t: 'tradle.Boolean',
   boolean: 'Yes'
@@ -612,7 +615,13 @@ var resources = [
 var myId;
 var data = {
   getResources: function() {
-    return resources;
+    resources.forEach((r) => {
+      if (!r._r) {
+        let str = stringify(r)
+        r._r = sha256.update(str, 'utf8').digest('hex')
+      }
+    })
+    return resources
   },
   getMyId: function() {
     return myId
