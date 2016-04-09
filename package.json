@@ -6,7 +6,9 @@
     "postinstall": "./hack.js"
   },
   "main": "./web/output/bundle.js",
-  "dependencies": {},
+  "dependencies": {
+    "json-stable-stringify": "^1.0.1"
+  },
   "devDependencies": {
     "@tradle/constants": "^2.0.3",
     "@tradle/models": "^4.7.5",
@@ -30,6 +32,7 @@
     "react-native-accordion": "^0.2.4",
     "react-native-barcode": "tradle/react-native-barcode",
     "react-native-cli": "0.1.10",
+    "react-native-floating-label-text-input": "pgmemk/react-native-floating-label-text-input",
     "react-native-floating-labels": "^1.0.0",
     "react-native-localization": "^0.1.12",
     "react-native-vector-icons": "^1.3.2",
