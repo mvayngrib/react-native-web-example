@@ -859,12 +859,9 @@ class NewResource extends Component {
           <View style={[styles.width, st]}>
             <Form ref='form' type={Model} options={options} value={data} onChange={this.onChange.bind(this)}/>
             {button}
-            <View style={{marginTop: -10}}>
+            <View style={{marginTop: -10, marginBottom: 30, paddingHorizontal: 15}}>
               {arrayItems}
              </View>
-            <View style={{alignItems: 'center', marginTop: 50}}>
-              <ActivityIndicatorIOS animating={this.state.isLoading ? true : false} size='large' color='#ffffff'/>
-            </View>
           </View>
           <View style={{height: 300}}/>
         </View>
@@ -1041,6 +1038,7 @@ var styles = StyleSheet.create({
   },
   width: {
     width: 600,
+    paddingTop: 20,
     alignSelf: 'center',
     backgroundColor: '#ffffff'
   },
@@ -1048,13 +1046,13 @@ var styles = StyleSheet.create({
     fontSize: 18,
     color: '#b1b1b1',
     alignSelf: 'center',
-    paddingLeft: 10
+    // paddingLeft: 10
   },
   itemsText: {
     fontSize: 20,
     color: '#000000',
     alignSelf: 'center',
-    paddingLeft: 10
+    // paddingLeft: 10
   },
   itemsCounter: {
     borderColor: '#2E3B4E',
@@ -1064,10 +1062,10 @@ var styles = StyleSheet.create({
     paddingHorizontal: 5,
   },
   itemButton: {
-    height: 70,
+    height: 60,
     // marginLeft: 10,
     borderColor: '#ffffff',
-    borderRadius: 4,
+    // borderRadius: 4,
     borderBottomColor: '#cccccc',
     borderBottomWidth: 0.5,
     paddingBottom: 10,
@@ -1118,7 +1116,7 @@ var styles = StyleSheet.create({
     alignSelf: 'center',
   },
   error: {
-    paddingLeft: 5,
+    // paddingLeft: 5,
     position: 'absolute',
     bottom: -20,
     backgroundColor: 'transparent'

@@ -6,6 +6,7 @@ var ResourceList = require('./ResourceList')
 var EnumList = require('./EnumList')
 var Picker = require('./Picker')
 // var FloatLabel = require('react-native-floating-labels')
+var FloatLabelTextInput = require('react-native-floating-label-text-input');
 var Icon = require('react-native-vector-icons/Ionicons');
 var utils = require('../utils/utils');
 
@@ -190,15 +191,15 @@ var NewResourceMixin = {
             options.fields[p].auto = 'labels';
           }
         }
-        if (!options.fields[p].multiline && (type === 'string'  ||  type === 'number')) {
-          // options.fields[p].template = this.myTextInputTemplate.bind(this, {
-          //           label: label,
-          //           prop:  props[p],
-          //           model: meta,
-          //           value: data  &&  data[p] ? data[p] + '' : null,
-          //           required: !maybe,
-          //           keyboard: props[p].keyboard ||  (type === 'number' ? 'numeric' : 'default'),
-          //         })
+        if (!options.fields[p].multiline && (type === 'string'  ||  type === 'number' || type === 'date')) {
+          options.fields[p].template = this.myTextInputTemplate.bind(this, {
+                    label: label,
+                    prop:  props[p],
+                    model: meta,
+                    value: data  &&  data[p] ? data[p] + '' : null,
+                    required: !maybe,
+                    keyboard: props[p].keyboard ||  (type === 'number' ? 'numeric' : 'default'),
+                  })
           options.fields[p].enablesReturnKeyAutomatically = true
 
           options.fields[p].onSubmitEditing = onSubmitEditing.bind(this);
@@ -365,20 +366,20 @@ var NewResourceMixin = {
     // Actions.saveTemporary(r)
   },
   myTextInputTemplate(params) {
-    return <View />
-    var error
+    // return <View />
+    var error, err
     if (params.noError)
       error = <View />
     else {
-      var err = this.state.missedRequiredOrErrorValue
-              ? this.state.missedRequiredOrErrorValue[params.prop.name]
-              : null
+      err = this.state.missedRequiredOrErrorValue
+          ? this.state.missedRequiredOrErrorValue[params.prop.name]
+          : null
 
       error = err
-                ? <View style={{paddingLeft: 15, backgroundColor: 'transparent'}} key={this.getNextKey()}>
-                    <Text style={{fontSize: 14, color: this.state.isRegistration ? '#eeeeee' : '#a94442'}}>{err}</Text>
-                  </View>
-                : <View key={this.getNextKey()} />
+            ? <View style={{paddingLeft: 15, backgroundColor: 'transparent'}} key={this.getNextKey()}>
+                <Text style={{fontSize: 14, color: this.state.isRegistration ? '#eeeeee' : '#a94442'}}>{err}</Text>
+              </View>
+            : <View key={this.getNextKey()} />
     }
     var label = translate(params.prop, params.model)
     if (params.prop.units) {
@@ -392,20 +393,35 @@ var NewResourceMixin = {
     //        : ''
     return (
       <View style={{paddingBottom: 10, flex: 5}}>
-        <FloatLabel
-          labelStyle={styles.labelInput}
-          autoCorrect={false}
-          autoCapitalize={this.state.isRegistration &&  params.prop.name !== 'url' ? 'sentences' : 'none'}
+        <FloatLabelTextInput
+          ref={params.prop.name}
+          err={err}
+          placeHolder={params.label}
           onFocus={this.inputFocused.bind(this, params.prop.name)}
-          inputStyle={this.state.isRegistration ? styles.regInput : styles.input}
-          style={styles.formInput}
           value={params.value}
+          style={{fontSize: 30, fontFamily: 'Helvetica Neue, STHeiTi, sans-serif'}}
           keyboardType={params.keyboard || 'default'}
-          onChangeText={this.onChangeText.bind(this, params.prop)}
-        >{label}</FloatLabel>
+          onChangeTextValue={this.onChangeTextValue.bind(this, params.prop)}
+        />
         {error}
       </View>
     );
+    // return (
+    //   <View style={{paddingBottom: 10, flex: 5}}>
+    //     <FloatLabel
+    //       labelStyle={styles.labelInput}
+    //       autoCorrect={false}
+    //       autoCapitalize={this.state.isRegistration &&  params.prop.name !== 'url' ? 'sentences' : 'none'}
+    //       onFocus={this.inputFocused.bind(this, params.prop.name)}
+    //       inputStyle={this.state.isRegistration ? styles.regInput : styles.input}
+    //       style={styles.formInput}
+    //       value={params.value}
+    //       keyboardType={params.keyboard || 'default'}
+    //       onChangeText={this.onChangeText.bind(this, params.prop)}
+    //     >{label}</FloatLabel>
+    //     {error}
+    //   </View>
+    // );
   },
   myDateTemplate(params) {
     var labelStyle = {color: '#cccccc', fontSize: 17, paddingLeft: 10, paddingBottom: 10};
@@ -423,7 +439,7 @@ var NewResourceMixin = {
     else {
       label = params.label
       style = labelStyle
-      propLabel = <View style={{marginTop: 20}}/>
+      propLabel = <View style={{paddingTop: 9}}/>
     }
 
     var err = this.state.missedRequiredOrErrorValue
@@ -499,8 +515,8 @@ var NewResourceMixin = {
   //   }
   // },
   myCustomTemplate(params) {
-    var labelStyle = {color: '#b1b1b1', fontSize: 18, paddingLeft: 10, paddingBottom: 10};
-    var textStyle = {color: this.state.isRegistration ? '#ffffff' : '#000000', fontSize: 18, paddingLeft: 10, paddingBottom: 10};
+    var labelStyle = {color: '#b1b1b1', fontSize: 18, paddingBottom: 10};
+    var textStyle = {color: this.state.isRegistration ? '#ffffff' : '#000000', fontSize: 18, paddingBottom: 10};
     var resource = /*this.props.resource ||*/ this.state.resource
     var label, style
     var propLabel, propName
@@ -518,31 +534,31 @@ var NewResourceMixin = {
       if (rModel.subClassOf  &&  rModel.subClassOf === ENUM)
         label = utils.createAndTranslate(label, true)
       style = textStyle
-      propLabel = <View style={{marginLeft: 10, marginTop: 5, marginBottom: 5, backgroundColor: this.state.isRegistration ? 'transparent' : '#ffffff'}}>
+      propLabel = <View style={{marginTop: -5, marginBottom: 5, backgroundColor: this.state.isRegistration ? 'transparent' : '#ffffff'}}>
                     <Text style={{fontSize: 12, height: 12, color: this.state.isRegistration ? '#eeeeee' : '#B1B1B1'}}>{params.label}</Text>
                   </View>
     }
     else {
       label = params.label
       style = labelStyle
-      propLabel = <View style={{marginTop: 20}}/>
+      propLabel = <View style={{marginTop: 13}}/>
     }
     var err = this.state.missedRequiredOrErrorValue
             ? this.state.missedRequiredOrErrorValue[prop.name]
             : null
     var error = err
-              ? <View style={{paddingLeft: 5, marginTop: 15, backgroundColor: 'transparent'}}>
+              ? <View style={{backgroundColor: 'transparent'}}>
                   <Text style={{fontSize: 14, color: this.state.isRegistration ? '#eeeeee' : '#a94442'}}>This field is required</Text>
                 </View>
               : <View />
     return (
-      <View style={[styles.chooserContainer, err ? {borderBottomColor: '#a94442'} : {borderBottomColor: '#cccccc'}]} key={this.getNextKey()} ref={prop.name}>
-        <TouchableHighlight underlayColor='transparent' onPress={this.chooser.bind(this, prop, params.prop)} style={{marginBottom: -10}}>
-          <View style={{ position: 'relative'}}>
+      <View style={styles.chooserContainer} key={this.getNextKey()} ref={prop.name}>
+        <TouchableHighlight underlayColor='transparent' onPress={this.chooser.bind(this, prop, params.prop)} >
+          <View style={[{ height: 45, position: 'relative', marginLeft: 15}]}>
             {propLabel}
-            <View style={styles.chooserContentStyle}>
+            <View style={[styles.chooserContentStyle, {borderColor: '#ffffff', borderBottomWidth: 0.5, borderBottomColor: '#cccccc'}]}>
               <Text style={style}>{label}</Text>
-                <Text style={{color: (this.props.bankStyle  &&  this.props.bankStyle.LINK_COLOR) || '#a94442', fontSize: 14, marginRight: 5}}>{'>'}</Text>
+              <Text style={{color: (this.props.bankStyle  &&  this.props.bankStyle.LINK_COLOR) || '#a94442', fontSize: 14, marginRight: 5}}>{'>'}</Text>
             </View>
            {error}
           </View>
@@ -882,19 +898,17 @@ var styles = StyleSheet.create({
   },
 
   chooserContainer: {
-    height: 46,
-    borderColor: '#ffffff',
-    borderBottomColor: '#cccccc',
-    borderBottomWidth: 0.5,
-    // marginLeft: 10,
-    marginBottom: 10,
-    flex: 1
+    // height: 46,
+    marginRight: 15,
+    // marginBottom: 10,
+    paddingBottom: 10,
+    flex: 5
   },
   chooserContentStyle: {
     justifyContent: 'space-between',
     flexDirection: 'row',
-    paddingBottom: 5,
-    borderRadius: 4
+    paddingVertical: 5,
+    // borderRadius: 4
   },
 
   // chooserContainer: {
