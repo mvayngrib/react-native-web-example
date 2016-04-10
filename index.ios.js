@@ -24,6 +24,8 @@ var NewResource = require('./Components/NewResource')
 var NewItem = require('./Components/NewItem')
 var ResourceList = require('./Components/ResourceList')
 var Form = t.form.Form;
+var EnumList = require('./Components/EnumList')
+var QRCodeView = require('./Components/QRCodeView')
 
 var Person = t.struct({
   name: t.String,
@@ -39,11 +41,11 @@ var options = {}; // optional rendering options (see documentation)
 class ReactNativeWebExample extends Component {
   render() {
     utils.setModels(voc)
-    let m = utils.getModel('tradle.MortgageProduct')
+    let m = utils.getModel(window.Tradle.provider.products[0])
     let route = {
       component: NewResource,
       rightButtonTitle: 'Done',
-      title: 'Please fill out your personal information',
+      title: utils.translate('pleaseFillOutTheForm', utils.translate(utils.getModel(m.forms[0]))),
       id: 4,
       passProps: {
         model: utils.getModel(m.forms[0]),
@@ -65,7 +67,7 @@ class ReactNativeWebExample extends Component {
         navigationBar={
           <Navigator.NavigationBar
             routeMapper={NavigationBarRouteMapper}
-            style={styles.navBar}
+            style={[styles.navBar, window.Tradle.provider.style ? {backgroundColor: window.Tradle.provider.style.STRUCTURED_MESSAGE_COLOR} : {backgroundColor: '#f7f7f7'}]}
           />
         }
       />
@@ -96,6 +98,8 @@ class ReactNativeWebExample extends Component {
       return <NewItem navigator={nav} {...props } />
     case 22:
       return <EnumList navigator={nav} { ...props } />
+    case 23:
+      return <QRCodeView navigator={nav} { ...props } />
     case 10:
     default: // 10
       return <ResourceList navigator={nav} {...props} />;
@@ -105,9 +109,9 @@ class ReactNativeWebExample extends Component {
 
 var NavigationBarRouteMapper = {
   LeftButton: function(route, navigator, index, navState) {
-    if (index === 0  ||  route.noLeftButton) {
+    if (!route.backButtonTitle || route.noLeftButton)
       return null;
-    }
+
     var color = '#7AAAC3'
     if (route.passProps.bankStyle  &&  route.passProps.bankStyle.LINK_COLOR)
       color = route.passProps.bankStyle.LINK_COLOR
@@ -116,6 +120,7 @@ var NavigationBarRouteMapper = {
     var lbTitle = 'backButtonTitle' in route ? route.backButtonTitle : previousRoute.title;
     if (!lbTitle)
       return null;
+
     var style = [styles.navBarText];
     if (route.tintColor)
       style.push(route.tintColor);
@@ -132,9 +137,10 @@ var NavigationBarRouteMapper = {
               : <Icon name={lbTitle.substring(4)} size={20} color='#7AAAC3' style={styles.icon}/>;
     // if (route.component === ResourceList  &&  index === 1)
     //   Actions.cleanup()
+
     return (
       <TouchableOpacity
-        onPress={() => navigator.pop()}>
+        onPress={() => route.onLeftButtonPress ? navigator.replace(route.onLeftButtonPress) : navigator.pop()}>
         <View style={styles.navBarLeftButton}>
           {title}
         </View>
@@ -198,6 +204,8 @@ var NavigationBarRouteMapper = {
       org = <View />;
     if (route.titleTextColor)
       style.push({color: route.titleTextColor});
+    else
+      style.push(window.Tradle.provider.style ? {color: window.Tradle.provider.style.NAV_TITLE} : {color: '#2E3B4E'})
     return (
       <View style={{flexDirection: 'row', flex: 1}}>
         <Text style={style}>

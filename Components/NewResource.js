@@ -9,6 +9,7 @@ var createHash = require('sha.js')
 var sha256 = createHash('sha256')
 var ResourceView = require('./ResourceView');
 var ResourceList = require('./ResourceList')
+var QRCodeView = require('./QRCodeView')
 var t = require('tcomb-form-native');
 var extend = require('extend');
 var Icon = require('react-native-vector-icons/Ionicons');
@@ -425,6 +426,11 @@ class NewResource extends Component {
     // };
     // if (this.props.additionalInfo)
     //   params.additionalInfo = additionalInfo
+    if (this.props.forms.length)  {
+      let f = this.props.forms[this.props.forms.length - 1]
+      if (f[constants.TYPE] === r[constants.TYPE])
+        this.props.forms.pop()
+    }
     this.props.forms.push(r)
 
     this.postForms()
@@ -435,10 +441,20 @@ class NewResource extends Component {
         this.props.navigator.replace({
           component: NewResource,
           rightButtonTitle: 'Done',
+          backButtonTitle: translate('continueOnMobile'),
+          onLeftButtonPress: {
+            component: QRCodeView,
+            title: translate('switchToMobile'),
+            id: 23,
+            passProps: {
+              qrcode: hash + ':' + window.Tradle.provider.bot,
+              bankStyle: this.props.bankStyle
+            }
+          },
           title: translate(m),
           id: 4,
           passProps: {
-            qrcode: hash + ':' + Tradle.provider.bot, //window.Tradle.provider.bot._r,
+            qrcode: hash + ':' + window.Tradle.provider.bot, //window.Tradle.provider.bot._r,
             model: m,
             product: this.props.product,
             bankStyle: this.props.bankStyle,
@@ -449,11 +465,11 @@ class NewResource extends Component {
       }
       else {
         this.props.navigator.replace({
-          component: ResourceList,
-          title: translate(this.props.product),
-          id: 10,
+          component: QRCodeView,
+          title: translate('switchToMobile'),
+          id: 23,
           passProps: {
-            modelName: this.props.product.id,
+            qrcode: hash + ':' + Tradle.provider.bot, //window.Tradle.provider.bot._r,,
             bankStyle: this.props.bankStyle
           }
         })
@@ -462,7 +478,7 @@ class NewResource extends Component {
     .catch((err) => {
       this.state.submitted = false
     })
-      // Actions.addItem(params)
+    // Actions.addItem(params)
   }
   postForms() {
     let serverUrl = window.location.pathname + '/store'  //'http://localhost:44444/' + providerHandle + '/store'
@@ -1038,7 +1054,7 @@ var styles = StyleSheet.create({
   },
   width: {
     width: 600,
-    paddingTop: 20,
+    paddingVertical: 20,
     alignSelf: 'center',
     backgroundColor: '#ffffff'
   },

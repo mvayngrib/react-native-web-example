@@ -19,7 +19,7 @@ var constants = require('@tradle/constants');
 var TYPE = constants.TYPE
 var VERIFICATION = constants.TYPES.VERIFICATION
 // var LocalizedStrings = require('react-native-localization')
-let defaultLanguage = 'en'; //new LocalizedStrings({ en: {}, nl: {} }).getLanguage()
+let defaultLanguage = 'nl'; //new LocalizedStrings({ en: {}, nl: {} }).getLanguage()
 var dictionaries = require('@tradle/models').dict
 
 var strings = translatedStrings[defaultLanguage]

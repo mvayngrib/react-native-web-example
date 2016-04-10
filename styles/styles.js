@@ -52,7 +52,7 @@ var stylesheet = Object.freeze({
   helpBlock: {
     normal: {
       color: HELP_COLOR,
-      fontSize: FONT_SIZE,
+      fontSize: HELP_FONT_SIZE,
       fontFamily: 'Helvetica Neue, STHeiTi, sans-serif',
       // marginLeft: 10,
       marginTop: 5

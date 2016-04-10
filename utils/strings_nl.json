@@ -107,5 +107,9 @@
     "College": "HBO",
     "University": "Universitair",
     "verificationTransactionID": "Verificatie Transaction Id",
-    "setDateValue": "Set"
+    "setDateValue": "Set",
+    "switchToMobile": "Please scan QR code with your mobile device and upload the documents",
+    "pleaseFillOutTheForm": "Please fill out the form: {1}",
+    "continueOnMobile": "Continue on mobile",
+    "years": "jaren"
 }

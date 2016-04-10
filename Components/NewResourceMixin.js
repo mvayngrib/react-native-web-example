@@ -107,6 +107,8 @@ var NewResourceMixin = {
     for (var p in eCols) {
       if (p === constants.TYPE  ||  p === bl  ||  (props[p].items  &&  props[p].items.backlink))
         continue;
+      if (meta  &&  meta.hidden  &&  meta.hidden.indexOf(p) !== -1)
+        continue
       var maybe = required  &&  !required.hasOwnProperty(p);
 
       var type = props[p].type;
@@ -268,14 +270,14 @@ var NewResourceMixin = {
               currency: CURRENCY_SYMBOL
             }
           }
-          // options.fields[p].template = this.myMoneyInputTemplate.bind(this, {
-          //           label: label,
-          //           prop:  props[p],
-          //           value: value,
-          //           model: meta,
-          //           keyboard: 'numeric',
-          //           required: !maybe,
-          //         })
+          options.fields[p].template = this.myMoneyInputTemplate.bind(this, {
+                    label: label,
+                    prop:  props[p],
+                    value: value,
+                    model: meta,
+                    keyboard: 'numeric',
+                    required: !maybe,
+                  })
 
 
           // options.fields[p].template = textTemplate.bind(this, {
@@ -383,9 +385,10 @@ var NewResourceMixin = {
     }
     var label = translate(params.prop, params.model)
     if (params.prop.units) {
+      let units = translate(params.prop.units)
       label += (params.prop.units.charAt(0) === '[')
-             ? ' ' + params.prop.units
-             : ' (' + params.prop.units + ')'
+             ? ' ' + units
+             : ' (' + units + ')'
     }
     label += params.required ? '' : ' (' + translate('optional') + ')'
     // label += (params.prop.ref  &&  params.prop.ref === constants.TYPES.MONEY)
@@ -396,7 +399,7 @@ var NewResourceMixin = {
         <FloatLabelTextInput
           ref={params.prop.name}
           err={err}
-          placeHolder={params.label}
+          placeHolder={label}
           onFocus={this.inputFocused.bind(this, params.prop.name)}
           value={params.value}
           style={{fontSize: 30, fontFamily: 'Helvetica Neue, STHeiTi, sans-serif'}}
@@ -548,7 +551,7 @@ var NewResourceMixin = {
             : null
     var error = err
               ? <View style={{backgroundColor: 'transparent'}}>
-                  <Text style={{fontSize: 14, color: this.state.isRegistration ? '#eeeeee' : '#a94442'}}>This field is required</Text>
+                  <Text style={{fontSize: 14, color: this.state.isRegistration ? '#eeeeee' : '#a94442'}}>{translate('thisFieldIsRequired')}</Text>
                 </View>
               : <View />
     return (
@@ -696,15 +699,14 @@ var NewResourceMixin = {
     }
     else
       error = <View/>
-    var style = {marginTop: 30}
     var value = prop ? params.value : resource[enumProp.name]
     return (
-      <View style={[styles.chooserContainer, {width: 40}]} key={this.getNextKey()} ref={enumProp.name}>
+      <View style={[styles.chooserContainer, {flex: 1, width: 40}]} key={this.getNextKey()} ref={enumProp.name}>
         <TouchableHighlight underlayColor='transparent' onPress={this.enumChooser.bind(this, prop, enumProp)}>
           <View style={{ position: 'relative'}}>
-            <View style={styles.chooserContentStyle}>
+            <View style={[styles.chooserContentStyle, { borderColor: '#ffffff', borderBottomColor: '#cccccc', borderBottomWidth: 0.5, paddingVertical: 0}]}>
               <Text style={styles.enumText}>{value}</Text>
-              <Icon name='ios-arrow-down'  size={15}  color='#96415A'  style={[styles.icon1, styles.enumProp]} />
+              <Text style={[styles.icon1, styles.enumProp, {color: (this.props.bankStyle  &&  this.props.bankStyle.LINK_COLOR) || '#a94442', fontSize: 14, marginRight: 5}]}>{'>'}</Text>
             </View>
            {error}
           </View>
@@ -784,6 +786,7 @@ var NewResourceMixin = {
     let properties = this.props.model.properties
     let err = []
     CURRENCY_SYMBOL = this.props.currency ? this.props.currency.symbol ||  this.props.currency : DEFAULT_CURRENCY_SYMBOL
+    let delProps = []
     for (var p in value) {
       if (!value[p])
         continue
@@ -798,6 +801,10 @@ var NewResourceMixin = {
             value: value[p],
             currency: CURRENCY_SYMBOL
           }
+        }
+        if (!value[p].value) {
+          delProps.push(p)
+          continue
         }
         this.checkNumber(value[p], prop, err)
         if (!value[p].currency)
@@ -847,6 +854,8 @@ var NewResourceMixin = {
       //     err[prop.name] = 'Invalid ' + prop.title
       // }
     }
+    if (delProps.length)
+      delProps.forEach((p) => delete value[p])
     return err
   },
   checkNumber(v, prop, err) {
@@ -856,6 +865,8 @@ var NewResourceMixin = {
     if (isNaN(v))
       err[p] = 'Please enter a valid number'
     else {
+      if (typeof v === 'string')
+        v = parseFloat(v)
       if (prop.max && v > prop.max)
         err[p] = 'The maximum value for is ' + prop.max
       else if (prop.min && v < prop.min)
@@ -868,10 +879,11 @@ var NewResourceMixin = {
 
 var styles = StyleSheet.create({
   enumProp: {
-    marginTop: 30,
+    marginTop: 20,
+    paddingBottom: 10
   },
   enumText: {
-    marginTop: 25,
+    marginTop: 20,
     marginLeft: 20,
     color: '#757575',
     fontSize: 17
