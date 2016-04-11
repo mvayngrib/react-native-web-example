@@ -7,6 +7,7 @@
   },
   "main": "./web/output/bundle.js",
   "dependencies": {
+    "@tradle/models": "^4.7.6",
     "json-stable-stringify": "^1.0.1"
   },
   "devDependencies": {
