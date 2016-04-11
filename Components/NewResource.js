@@ -436,11 +436,12 @@ class NewResource extends Component {
     this.postForms()
     .then((hash) => {
       this.state.submitted = false
-      if (this.props.forms.length !== this.props.product.forms.length) {
-        let m = utils.getModel(this.props.product.forms[this.props.forms.length])
+      let forms = window.Tradle.provider.products[Object.keys(window.Tradle.provider.products)[0]]
+      if (this.props.forms.length !== forms.length) {
+        let m = utils.getModel(forms[this.props.forms.length])
         this.props.navigator.replace({
           component: NewResource,
-          rightButtonTitle: 'Done',
+          rightButtonTitle: translate('done'),
           backButtonTitle: translate('continueOnMobile'),
           onLeftButtonPress: {
             component: QRCodeView,
@@ -456,7 +457,6 @@ class NewResource extends Component {
           passProps: {
             qrcode: hash + ':' + window.Tradle.provider.bot, //window.Tradle.provider.bot._r,
             model: m,
-            product: this.props.product,
             bankStyle: this.props.bankStyle,
             currency: this.props.currency,
             forms: this.props.forms
@@ -691,7 +691,7 @@ class NewResource extends Component {
           if (isPhoto) {
             itemsArray =
               <View style={{height: 80, marginLeft: 10}}>
-                <Text style={styles.activePropTitle}>{bl.title}</Text>
+                <Text style={styles.activePropTitle}>{translate(bl, meta)}</Text>
                 <View style={{flexDirection: 'row'}}>{items}</View>
               </View>
             // counter =
@@ -707,40 +707,25 @@ class NewResource extends Component {
                   // <Text>{resource[bl.name] ? resource[bl.name].length : ''}</Text>
           }
           else {
-            itemsArray = <Text style={count ? styles.itemsText : styles.noItemsText}>{bl.title}</Text>
+            itemsArray = <Text style={count ? styles.itemsText : styles.noItemsText}>{translate(bl, meta)}</Text>
             counter =
               <View style={styles.itemsCounter}>
                 <Text>{resource[bl.name] ? resource[bl.name].length : ''}</Text>
               </View>
           }
-
         }
         else {
-          itemsArray = <Text style={count ? styles.itemsText : styles.noItemsText}>{bl.title}</Text>
-
-          // if (model.required  &&  model.required.indexOf(bl.name) != -1)
-          //   counter =
-          //     <View style={{paddingHorizontal: 5}}>
-          //       <Icon name='plus'  size={15}  color='#96415A'/>
-          //     </View>;
-          // else
-            counter = <View style={{paddingHorizontal: 5}}>
-                        <Text style={{color: (this.props.bankStyle  &&  this.props.bankStyle.LINK_COLOR) || '#a94442', fontSize: 18}}>{'+'}</Text>
-                      </View>
+          itemsArray = <Text style={count ? styles.itemsText : styles.noItemsText}>{translate(bl, meta)}</Text>
+          counter = <View style={{paddingHorizontal: 5}}>
+                      <Text style={{color: (this.props.bankStyle  &&  this.props.bankStyle.LINK_COLOR) || '#a94442', fontSize: 18}}>{'+'}</Text>
+                    </View>
         }
       }
       else {
-        itemsArray = <Text style={count ? styles.itemsText : styles.noItemsText}>{bl.title}</Text>
-
-        // if (self.props.model.required  &&  self.props.model.required.indexOf(bl.name) != -1)
-        //   counter =
-        //     <View>
-        //       <Icon name='plus'  size={15}  color='#96415A' />
-        //     </View>;
-        // else
-          counter = <View style={{paddingHorizontal: 5}}>
-                        <Text style={{color: (this.props.bankStyle  &&  this.props.bankStyle.LINK_COLOR) || '#a94442', fontSize: 18}}>{'+'}</Text>
-                    </View>
+        itemsArray = <Text style={count ? styles.itemsText : styles.noItemsText}>{translate(bl, meta)}</Text>
+        counter = <View style={{paddingHorizontal: 5}}>
+                      <Text style={{color: (this.props.bankStyle  &&  this.props.bankStyle.LINK_COLOR) || '#a94442', fontSize: 18}}>{'+'}</Text>
+                  </View>
       }
       var title = bl.title || utils.makeLabel(p)
       var err = this.state.missedRequiredOrErrorValue
@@ -752,29 +737,6 @@ class NewResource extends Component {
                     <Text style={styles.errorText}>{errTitle}</Text>
                   </View>
                 : <View/>
-      // var error = <View/>
-                // <Text style={count ? styles.itemsText : styles.noItemsText}>{bl.title}</Text>
-      // var actionableItem = isPhoto
-      //                    ? itemsArray
-      //                    : <TouchableHighlight underlayColor='transparent'
-      //                           onPress={self.onNewPressed.bind(self, bl, meta)}>
-      //                       {itemsArray}
-      //                     </TouchableHighlight>
-
-      // arrayItems.push (
-      //   <View style={styles.itemButton} key={this.getNextKey()} ref={bl.name}>
-      //       <View>
-      //         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-      //           {actionableItem}
-      //           <TouchableHighlight underlayColor='transparent'
-      //                           onPress={self.onNewPressed.bind(self, bl, meta)}>
-      //             {counter}
-      //           </TouchableHighlight>
-      //         </View>
-      //         {error}
-      //       </View>
-      //   </View>
-      // );
       var actionableItem = isPhoto && count
                          ?  <TouchableHighlight underlayColor='transparent'
                              onPress={self.showItems.bind(self, bl, meta)}>
@@ -796,33 +758,6 @@ class NewResource extends Component {
           {error}
         </View>
       );
-
-      // arrayItems.push (
-      //   <View style={styles.itemButton} key={this.getNextKey()} ref={bl.name}>
-      //       <View>
-      //         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-      //            <TouchableHighlight underlayColor='transparent'
-      //               onPress={self.onNewPressed.bind(self, bl, meta)}>
-      //              {itemsArray}
-      //            </TouchableHighlight>
-      //            <TouchableHighlight underlayColor='transparent'
-      //               onPress={self.showItems.bind(self, bl, meta)}>
-      //             {counter}
-      //           </TouchableHighlight>
-      //         </View>
-      //         {error}
-      //       </View>
-      //   </View>
-      // );
-
-
-      // if (itemsArray) {
-      //   arrayItems.push(
-      //     <View style={styles.itemButton} key={this.getNextKey()} ref={bl.name}>
-      //       {itemsArray}
-      //     </View>
-      //   )
-      // }
     }
     // var FromToView = require('./FromToView');
     // var isRegistration = !utils.getMe()  &&  resource[constants.TYPE] === constants.TYPES.PROFILE
@@ -860,18 +795,30 @@ class NewResource extends Component {
     //           ? <Text style={{color: 'darkred', alignSelf: 'center',fontSize: 18}}>{this.state.err}</Text>
     //           : <View/>
     var st = {paddingHorizontal: 15, marginHorizontal: 10}
-    if (this.props.qrcode)
+    let qrCode
+    if (this.props.qrcode) {
       st.marginTop = -180
-
+      qrCode = <View style={{margin: 20}}>
+              {qrcode(this.props.qrcode, { width: 140, height: 140})}
+            </View>
+    }
+    else
+      qrCode = <View />
+    let img
+    if (window.Tradle.provider.org.photos[0]) {
+      // st.marginTop = -180
+      img = <View style={{position: 'absolute', top: 100, right: 0}}>
+              <Image source={{uri: window.Tradle.provider.org.photos[0].url}} style={{width: 300, opacity: 0.07}} />
+            </View>
+    }
+    else
+      img = <View />
     st.boxShadow = '2px 2px 3px 2px #ccc'
 
     var content =
       <ScrollView style={style} ref='scrollView' {...this.scrollviewProps}>
         <View style={styles.container}>
-          {this.props.qrcode ? <View style={{margin: 20}}>
-                  {qrcode(this.props.qrcode, { width: 140, height: 140})}
-                </View>
-              : <View/>}
+          {qrCode}
           <View style={[styles.width, st]}>
             <Form ref='form' type={Model} options={options} value={data} onChange={this.onChange.bind(this)}/>
             {button}
@@ -879,7 +826,8 @@ class NewResource extends Component {
               {arrayItems}
              </View>
           </View>
-          <View style={{height: 300}}/>
+          {img}
+          <View style={{height: 600}}/>
         </View>
       </ScrollView>
 
