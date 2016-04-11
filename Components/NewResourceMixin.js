@@ -383,7 +383,13 @@ var NewResourceMixin = {
               </View>
             : <View key={this.getNextKey()} />
     }
-    var label = translate(params.prop, params.model)
+    var label
+    if (this.props.metadata) {
+      let m = utils.getModel(this.props.resource[constants.TYPE])
+      label = utils.translateItemProperty(params.prop, params.model, m)
+    }
+    else
+      label = translate(params.prop, params.model)
     if (params.prop.units) {
       let units = translate(params.prop.units)
       label += (params.prop.units.charAt(0) === '[')
