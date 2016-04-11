@@ -63,7 +63,7 @@
     "shareOneOfMany": "{1}, this is your personal privacy assistant. I see you've already had your {2} verified. You can tap on any items in the list below to share them with {3}.",
     "verificationTransactionID": "Verification Transaction Id",
     "setDateValue": "Set",
-    "switchToMobile": "Please scan QR code with your mobile device and upload the documents",
+    "switchToMobile": "Please scan this QR code with your Tradle app and upload the supporting documents",
     "pleaseFillOutTheForm": "Please fill out the form: {1}",
     "continueOnMobile": "Continue on mobile"
 }

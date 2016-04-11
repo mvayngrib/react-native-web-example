@@ -108,8 +108,8 @@
     "University": "Universitair",
     "verificationTransactionID": "Verificatie Transaction Id",
     "setDateValue": "Set",
-    "switchToMobile": "Please scan QR code with your mobile device and upload the documents",
-    "pleaseFillOutTheForm": "Please fill out the form: {1}",
-    "continueOnMobile": "Continue on mobile",
+    "switchToMobile": "Gelieve scan QR-code met je Tradle app en de ondersteunende documenten te uploaden",
+    "pleaseFillOutTheForm": "Vul dan het formulier: {1}",
+    "continueOnMobile": "Doorgaan op mobiel",
     "years": "jaren"
 }
