@@ -108,7 +108,7 @@ var utils = {
     if (!dictionary)
       return property.title || utils.makeLabel(property.name)
     let itemsProp = dictionary.properties[itemsProperty.name]
-    return  itemsProp  && itemsProp.items[property.name]
+    return  itemsProp && itemsProp.items && itemsProp.items[property.name]
           ? itemsProp.items[property.name]
           : property.title || utils.makeLabel(property.name)
   },
