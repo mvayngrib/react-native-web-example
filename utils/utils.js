@@ -388,5 +388,13 @@ var utils = {
       }
     }
   },
+
+  firstKey: function firstKey (obj) {
+    return Object.keys(obj)
+    .sort(function (a, b) {
+      return a < b ? -1 : (a > b ? 1 : 0)
+    })[0]
+  }
+
 }
 module.exports = utils;

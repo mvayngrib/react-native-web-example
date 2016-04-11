@@ -43,13 +43,15 @@ class ReactNativeWebExample extends Component {
   render() {
     utils.setModels(voc)
 
-    let forms = window.Tradle.provider.products[Object.keys(window.Tradle.provider.products)[0]]
+    let product = utils.firstKey(window.Tradle.provider.products)
+    let forms = window.Tradle.provider.products[product]
     let route = {
       component: NewResource,
       rightButtonTitle: translate('done'),
       title: translate('pleaseFillOutTheForm', translate(utils.getModel(forms[0]))),
       id: 4,
       passProps: {
+        product: product,
         model: utils.getModel(forms[0]),
         forms: [],
         bankStyle: window.Tradle.provider.style,

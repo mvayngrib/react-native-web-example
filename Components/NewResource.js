@@ -485,7 +485,7 @@ class NewResource extends Component {
     let body = this.props.forms.slice()
     body.unshift({
       _t: constants.TYPES.SIMPLE_MESSAGE,
-      message: '[application for](tradle.MortgageProduct)'
+      message: `[application for](${this.props.product})`
     })
 
     return fetch(serverUrl, {
