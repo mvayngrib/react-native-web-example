@@ -6,13 +6,9 @@
     "postinstall": "./hack.js"
   },
   "main": "./web/output/bundle.js",
-  "dependencies": {
-    "@tradle/models": "^4.7.6",
-    "json-stable-stringify": "^1.0.1"
-  },
   "devDependencies": {
     "@tradle/constants": "^2.0.3",
-    "@tradle/models": "^4.7.5",
+    "@tradle/models": "^4.7.6",
     "babel": "5.8.19",
     "babel-core": "5.8.19",
     "babel-loader": "5.1.3",
