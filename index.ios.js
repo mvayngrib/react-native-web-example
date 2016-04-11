@@ -20,6 +20,7 @@ var {
 var t = require('tcomb-form-native')
 var voc = require('@tradle/models')
 var utils = require('./utils/utils')
+var translate = utils.translate
 var NewResource = require('./Components/NewResource')
 var NewItem = require('./Components/NewItem')
 var ResourceList = require('./Components/ResourceList')
@@ -41,20 +42,21 @@ var options = {}; // optional rendering options (see documentation)
 class ReactNativeWebExample extends Component {
   render() {
     utils.setModels(voc)
-    let m = utils.getModel(window.Tradle.provider.products[0])
+
+    let forms = window.Tradle.provider.products[Object.keys(window.Tradle.provider.products)[0]]
     let route = {
       component: NewResource,
-      rightButtonTitle: 'Done',
-      title: utils.translate('pleaseFillOutTheForm', utils.translate(utils.getModel(m.forms[0]))),
+      rightButtonTitle: translate('done'),
+      title: translate('pleaseFillOutTheForm', translate(utils.getModel(forms[0]))),
       id: 4,
       passProps: {
-        model: utils.getModel(m.forms[0]),
-        product: m,
+        model: utils.getModel(forms[0]),
         forms: [],
         bankStyle: window.Tradle.provider.style,
         currency: window.Tradle.provider.org.currency
       }
     }
+    let style = window.Tradle.provider.style
     return (
       <Navigator
         initialRoute={route}
@@ -67,7 +69,7 @@ class ReactNativeWebExample extends Component {
         navigationBar={
           <Navigator.NavigationBar
             routeMapper={NavigationBarRouteMapper}
-            style={[styles.navBar, window.Tradle.provider.style ? {backgroundColor: window.Tradle.provider.style.STRUCTURED_MESSAGE_COLOR} : {backgroundColor: '#f7f7f7'}]}
+            style={[styles.navBar, style ? {backgroundColor: style.STRUCTURED_MESSAGE_COLOR, borderBottomColor: style.LINK_COLOR} : {backgroundColor: '#f7f7f7'}]}
           />
         }
       />
