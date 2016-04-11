@@ -57,6 +57,7 @@ var utils = {
     if (!strings)
       strings = translatedStrings[defaultLanguage]
   },
+
   getMe() {
     return me;
   },
@@ -102,6 +103,14 @@ var utils = {
       return property.title || utils.makeLabel(property.name)
     let translations = dictionary.properties[property.name]
     return (translations) ? translations[model.id] || translations.Default : property.title || utils.makeLabel(property.name)
+  },
+  translateItemProperty(property, itemsProperty, model) {
+    if (!dictionary)
+      return property.title || utils.makeLabel(property.name)
+    let itemsProp = dictionary.properties[itemsProperty.name]
+    return  itemsProp  && itemsProp.items[property.name]
+          ? itemsProp.items[property.name]
+          : property.title || utils.makeLabel(property.name)
   },
   translateModel(model) {
     if (!dictionary)
