@@ -57,10 +57,10 @@ class VerificationRow extends Component {
     // else
     //   photo = <View style={styles.cellImage} />
 
-    var model = utils.getModel(resource[constants.TYPE]).value;
+    var model = utils.getModel(resource[constants.TYPE]);
     var verificationRequest = resource.document
-                            ? utils.getModel(resource.document[constants.TYPE]).value
-                            : utils.getModel(resource[constants.TYPE]).value;
+                            ? utils.getModel(resource.document[constants.TYPE])
+                            : utils.getModel(resource[constants.TYPE]);
 
     var rows = [];
 
@@ -162,7 +162,7 @@ class VerificationRow extends Component {
     var vCols = [];
     var first = true;
     var self = this;
-    var model = utils.getModel(resource[constants.TYPE] || resource.id).value;
+    var model = utils.getModel(resource[constants.TYPE] || resource.id);
 
     var properties = model.properties;
     var noMessage = !resource.message  ||  !resource.message.length;
@@ -217,7 +217,7 @@ class VerificationRow extends Component {
           if (msgModel) {
             vCols.push(<View key={self.getNextKey()} style={{borderColor: '#F2FAED', borderWidth: 0.5, paddingVertical: 5, borderBottomColor: '#f0f0f0'}}>
                          <Text style={style}>{msgParts[0]}</Text>
-                         <Text style={[style, {color: isMyMessage ? '#efffe5' : '#7AAAC3'}]}>{msgModel.value.title}</Text>
+                         <Text style={[style, {color: isMyMessage ? '#efffe5' : '#7AAAC3'}]}>{msgModel.title}</Text>
                        </View>);
             return;
           }
