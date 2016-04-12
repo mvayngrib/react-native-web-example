@@ -287,7 +287,7 @@ class ResourceRow extends Component {
           row = <Text style={style} key={self.getNextKey()}>{val}</Text>;
         }
         if (first  &&  dateProp) {
-          var val = utils.formatDate(new Date(resource[dateProp]));
+          var val = utils.formatDate(utils.parseDate(resource[dateProp]));
           // var dateBlock = self.addDateProp(resource, dateProp, true);
           row = <View style={{flexDirection: 'row', justifyContent: 'space-between'}} key={this.getNextKey()}>
                   <View>{row}</View>

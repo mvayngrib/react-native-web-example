@@ -331,7 +331,7 @@ class NewResource extends Component {
             delete json[p]
           }
           else if (self.props.model.properties[p].type === 'date') {
-            let d = new Date(v)
+            let d = utils.parseDate(v)
             if (isNaN(d.getTime())) {
               missedRequiredOrErrorValue[p] = translate('thisFieldIsRequired')
               delete resource[p]

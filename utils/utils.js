@@ -19,12 +19,35 @@ var constants = require('@tradle/constants');
 var TYPE = constants.TYPE
 var VERIFICATION = constants.TYPES.VERIFICATION
 // var LocalizedStrings = require('react-native-localization')
+let dictionaries = require('@tradle/models').dict
+
+let locales = {
+  eu: {
+    parseDate: function (date) {
+      date = date.split('/')
+      // DD/MM/YY(YY)?
+      date = [date[1], date[0], date[2]].join('/')
+      return new Date(date)
+    }
+  },
+  us: {
+    parseDate: function (date) {
+      return new Date(date)
+    }
+  }
+}
+
+let langToLocale = {
+  nl: locales.eu,
+  en: locales.us
+}
+
+let defaultLocale = locales.eu
 let defaultLanguage = 'nl'; //new LocalizedStrings({ en: {}, nl: {} }).getLanguage()
-var dictionaries = require('@tradle/models').dict
-
-var strings = translatedStrings[defaultLanguage]
-var dictionary = dictionaries[defaultLanguage]
-
+let currentLanguage
+let currentLocale
+let strings
+let dictionary
 var propTypesMap = {
   'string': t.Str,
   'boolean': t.Bool,
@@ -34,6 +57,16 @@ var propTypesMap = {
 var models, me;
 
 var DEFAULT_FETCH_TIMEOUT = 5000
+
+var setLanguage = function (lang, dict) {
+  currentLanguage = lang
+  strings = translatedStrings[lang] || translatedStrings[defaultLanguage]
+  dictionary = dict || dictionaries[lang] || dictionaries[defaultLanguage]
+  currentLocale = langToLocale[lang] || defaultLocale
+}
+
+setLanguage(defaultLanguage)
+
 var utils = {
   isEmpty(obj) {
     for(var prop in obj) {
@@ -48,14 +81,12 @@ var utils = {
       return
 
     if (me.languageCode) {
-      strings = translatedStrings[me.languageCode]
-      if (me.dictionary)
-        dictionary = me.dictionary
-      else if (dictionaries[me.languageCode])
-        dictionary = dictionaries[me.languageCode]
+      setLanguage(me.languageCode, me.dictionary)
     }
-    if (!strings)
+
+    if (!strings) {
       strings = translatedStrings[defaultLanguage]
+    }
   },
 
   getMe() {
@@ -394,7 +425,10 @@ var utils = {
     .sort(function (a, b) {
       return a < b ? -1 : (a > b ? 1 : 0)
     })[0]
-  }
+  },
 
+  parseDate: function (str) {
+    return isNaN(str) ? currentLocale.parseDate(str) : new Date(str)
+  }
 }
 module.exports = utils;
