@@ -363,7 +363,7 @@ class NewResource extends Component {
       var isDate = Object.prototype.toString.call(v) === '[object Date]'
       if (!v  ||  (isDate  &&  isNaN(v.getTime())))  {
         var prop = self.props.model.properties[p]
-        if (prop.items  &&  (prop.items.backlink || prop.name === 'photos'))
+        if (prop.items  &&  (prop.items.backlink || prop.name === 'photos' || prop.items.ref))
           return
         if ((prop.ref) ||  isDate  ||  prop.items) {
           if (resource && resource[p])
@@ -443,7 +443,6 @@ class NewResource extends Component {
         this.props.forms.pop()
     }
     this.props.forms.push(r)
-
     this.postForms()
     .then((hash) => {
       this.state.submitted = false
@@ -460,7 +459,7 @@ class NewResource extends Component {
             id: 23,
             passProps: {
               qrcode: hash + ':' + window.Tradle.provider.bot,
-              bankStyle: this.props.bankStyle
+              bankStyle: self.props.bankStyle
             }
           },
           title: translate(m),
@@ -468,11 +467,7 @@ class NewResource extends Component {
           passProps: {
             ...this.props,
             qrcode: hash + ':' + window.Tradle.provider.bot, //window.Tradle.provider.bot._r,
-            model: m,
-            // bankStyle: this.props.bankStyle,
-            // currency: this.props.currency,
-            // forms: this.props.forms,
-            // product: this.props.product
+            model: m
           }
         })
       }
@@ -483,7 +478,7 @@ class NewResource extends Component {
           id: 23,
           passProps: {
             qrcode: hash + ':' + Tradle.provider.bot, //window.Tradle.provider.bot._r,,
-            bankStyle: this.props.bankStyle
+            bankStyle: self.props.bankStyle
           }
         })
       }
@@ -558,39 +553,15 @@ class NewResource extends Component {
     });
   }
   onNewPressed(bl) {
-    // if (bl.items.backlink) {
-    //   var model = utils.getModel(bl.items.ref);
-    //   var resource = {};
-    //   resource[constants.TYPE] = bl.items.ref;
-    //   resource[bl.items.backlink] = this.props.resource;
-    //   var passProps = {
-    //     model: model,
-    //     // callback: this.props.navigator.pop,
-    //     resource: resource
-    //   }
-    //   this.props.navigator.push({
-    //     id: 4,
-    //     title: 'Add new ' + bl.title,
-    //     backButtonTitle: 'Back',
-    //     component: NewResource,
-    //     rightButtonTitle: 'Done',
-    //     passProps: passProps,
-    //   });
-    //   return;
-    // }
     var resource = this.addFormValues();
     this.setState({resource: resource, err: ''});
-    var blmodel = bl.items.ref ? utils.getModel(bl.items.ref) : this.props.model
+    var blmodel = bl.items.ref ? utils.getModel(bl.items.ref).value : this.props.model
     this.props.navigator.push({
       id: 6,
       title: translate('addNew', translate(bl, blmodel)), // Add new ' + bl.title,
       backButtonTitle: translate('back'),
       component: NewItem,
       rightButtonTitle: translate('done'),
-      // onRightButtonPress: {
-      //   stateChange: this.onAddItem.bind(this, bl, ),
-      //   before: this.done.bind(this)
-      // },
       passProps: {
         metadata: bl,
         resource: this.state.resource,
@@ -664,6 +635,8 @@ class NewResource extends Component {
       if (p === 'photos')
         continue
       var bl = itemsMeta[p]
+      if (bl.items.ref)
+        continue
       if (bl.readOnly  ||  bl.items.backlink) {
         arrayItems.push(<View key={this.getNextKey()} ref={bl.name} />)
         continue
@@ -674,60 +647,6 @@ class NewResource extends Component {
       if (resource  &&  resource[bl.name]) {
         count = resource[bl.name].length
         if (count) {
-          var items = []
-          isPhoto = bl.name === 'photos'
-          var arr = resource[bl.name]
-          var n = isPhoto
-                ? Math.min(arr.length, 7)
-                : 3
-
-          for (var i=0; i<n; i++) {
-            if (isPhoto)
-              items.push(
-                  <Image style={styles.thumb} source={{uri: arr[i].url}} key={self.getNextKey()} onPress={() => this.openModal(arr[i])}/>
-                  // CAROUSEL
-                // <TouchableHighlight underlayColor='transparent' onPress={this.showCarousel.bind(this, arr[i], this.cancelItem.bind(this, arr[i]))}>
-                //   <Image style={styles.thumb} source={{uri: arr[i].url}} key={self.getNextKey()}/>
-                // </TouchableHighlight>
-
-                // this is for MODAL
-                // <TouchableHighlight underlayColor='transparent' onPress={this.openModal.bind(this, arr[i].url)}  key={self.getNextKey()}>
-                //   <Image style={styles.thumb} source={{uri: arr[i].url}}/>
-                // </TouchableHighlight>
-              )
-
-
-            // else {
-            //   items.push
-            // }
-          }
-          if (isPhoto) {
-            itemsArray =
-              <View style={{height: 80, marginLeft: 10}}>
-                <Text style={styles.activePropTitle}>{translate(bl, meta)}</Text>
-                <View style={{flexDirection: 'row'}}>{items}</View>
-              </View>
-            // counter =
-            //   <View>
-            //     <Icon name={'plus'} size={30} color='#7AAAC3' />
-            //   </View>
-              counter =
-                <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-                  <View style={{marginTop: 60, marginHorizontal: 5}}>
-                    <Text style={{color: (this.props.bankStyle  &&  this.props.bankStyle.LINK_COLOR) || '#a94442', fontSize: 18}}>{'+'}</Text>
-                  </View>
-                </View>;
-                  // <Text>{resource[bl.name] ? resource[bl.name].length : ''}</Text>
-          }
-          else {
-            itemsArray = <Text style={count ? styles.itemsText : styles.noItemsText}>{translate(bl, meta)}</Text>
-            counter =
-              <View style={styles.itemsCounter}>
-                <Text>{resource[bl.name] ? resource[bl.name].length : ''}</Text>
-              </View>
-          }
-        }
-        else {
           itemsArray = <Text style={count ? styles.itemsText : styles.noItemsText}>{translate(bl, meta)}</Text>
           counter = <View style={{paddingHorizontal: 5}}>
                       <Text style={{color: (this.props.bankStyle  &&  this.props.bankStyle.LINK_COLOR) || '#a94442', fontSize: 18}}>{'+'}</Text>
@@ -772,14 +691,10 @@ class NewResource extends Component {
         </View>
       );
     }
-    // var FromToView = require('./FromToView');
-    // var isRegistration = !utils.getMe()  &&  resource[constants.TYPE] === constants.TYPES.PROFILE
     if (this.state.isRegistration)
       Form.stylesheet = rStyles
     else
       Form.stylesheet = stylesheet
-
-    // var style = isMessage ? {height: 570} : {height: 867};
 
     var style
     if (this.state.isRegistration)
@@ -798,15 +713,6 @@ class NewResource extends Component {
                  </TouchableHighlight>
                : <View style={{height: 0}} />
 
-    // var button = this.state.isRegistration
-    //            ? <TouchableHighlight style={styles.thumbButton}
-    //                   underlayColor='transparent' onPress={this.onSavePressed.bind(this)}>
-    //                  <Icon name={'power'} size={Device.width / 6} style={styles.power}/>
-    //              </TouchableHighlight>
-    //            : <View style={{height: 0}} />
-    // var alert = this.state.err
-    //           ? <Text style={{color: 'darkred', alignSelf: 'center',fontSize: 18}}>{this.state.err}</Text>
-    //           : <View/>
     var st = {paddingHorizontal: 15, marginHorizontal: 10}
     let qrCode
     if (this.props.qrcode) {
@@ -844,7 +750,6 @@ class NewResource extends Component {
         </View>
       </ScrollView>
 
-    // StatusBarIOS.setHidden(true);
     if (!this.state.isRegistration) {
       if (this.state.err) {
         AlertIOS.alert(this.state.err)
@@ -852,24 +757,6 @@ class NewResource extends Component {
       }
       return content
     }
-    // var cTop = DeviceHeight / 6
-
-    // var thumb = {
-    //   width: DeviceWidth / 2.2,
-    //   height: DeviceWidth / 2.2,
-    // }
-
-    // return (
-    //     <View style={{height: DeviceHeight}}>
-    //       <Image source={BG_IMAGE} style={{position:'absolute', left: 0, top: 0, width: DeviceWidth, height: DeviceHeight}} />
-
-    //       {content}
-    //       <View style={{opacity: 0.7, position: 'absolute', top: 20, right: 20, flexDirection: 'row'}}>
-    //         <Image style={{width: 50, height: 50}} source={require('../img/TradleW.png')}></Image>
-    //       </View>
-    //     </View>
-
-    //   )
   }
 
   cancelItem(item) {
