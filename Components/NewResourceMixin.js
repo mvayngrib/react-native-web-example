@@ -212,7 +212,7 @@ var NewResourceMixin = {
           if (type === 'number') {
             if (!props[p].keyboard)
               options.fields[p].keyboardType = 'numeric'
-            if (data[p]  &&  (typeof data[p] != 'number'))
+            if (data  &&  data[p]  &&  (typeof data[p] != 'number'))
               data[p] = parseFloat(data[p])
           }
         }
@@ -627,8 +627,23 @@ var NewResourceMixin = {
       this.floatingProps[propName] = value
       resource[propName] = value
     }
-    else if (this.props.model.properties[propName].type === 'array')
-      resource[propName] = value
+    // else if (this.props.model.properties[propName].type === 'array') {
+      // let v = {
+      //   id: utils.getId(value),
+      //   title: utils.getDisplayName(value, utils.getModel(value[constants.TYPE]).properties)
+      // }
+      // if (!resource[propName]) {
+      //   resource[propName] = []
+      //   resource[propName].push(v)
+      // }
+      // else {
+      //   let arr = resource[propName].filter((r) => {
+      //     return r.id === v.id
+      //   })
+      //   if (!arr.length)
+      //     resource[propName].push(v)
+      // }
+    // }
     else {
       var id = value[constants.TYPE] + '_' + value[constants.ROOT_HASH]
       resource[propName] = {
