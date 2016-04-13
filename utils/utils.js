@@ -1,5 +1,6 @@
 'use strict'
 
+var parseQuerystring = require('querystring').parse
 var Q = require('q')
 var voc = require('@tradle/models')
 var t = require('tcomb-form-native');
@@ -42,8 +43,8 @@ let langToLocale = {
   en: locales.us
 }
 
-let defaultLocale = locales.eu
-let defaultLanguage = 'nl'; //new LocalizedStrings({ en: {}, nl: {} }).getLanguage()
+let searchStr = (window.location.search || '').slice(1)
+let defaultLanguage = parseQuerystring(searchStr).lang || 'nl'; //new LocalizedStrings({ en: {}, nl: {} }).getLanguage()
 let currentLanguage
 let currentLocale
 let strings
@@ -54,6 +55,7 @@ var propTypesMap = {
   'date': t.Dat,
   'number': t.Num
 };
+
 var models, me;
 
 var DEFAULT_FETCH_TIMEOUT = 5000
@@ -62,7 +64,7 @@ var setLanguage = function (lang, dict) {
   currentLanguage = lang
   strings = translatedStrings[lang] || translatedStrings[defaultLanguage]
   dictionary = dict || dictionaries[lang] || dictionaries[defaultLanguage]
-  currentLocale = langToLocale[lang] || defaultLocale
+  currentLocale = langToLocale[lang] || langToLocale[defaultLanguage]
 }
 
 setLanguage(defaultLanguage)
@@ -431,4 +433,5 @@ var utils = {
     return isNaN(str) ? currentLocale.parseDate(str) : new Date(str)
   }
 }
+
 module.exports = utils;
