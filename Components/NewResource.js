@@ -1,5 +1,6 @@
 'use strict';
 
+var moment = require('moment')
 var React = require('react-native');
 var utils = require('../utils/utils');
 var translate = utils.translate
@@ -417,6 +418,16 @@ class NewResource extends Component {
     //   this.state.isRegistration = true;
     var r = {}
     extend(true, r, resource)
+
+    // European Date => US date hack
+    var meta = this.props.model.properties
+    for (var p in r) {
+      var prop = meta[p]
+      if (prop && prop.type === 'date') {
+        r[p] = moment(utils.parseDate(r[p])).format('MM/DD/YYYY')
+      }
+    }
+
     // delete r.url
     // var params = {
     //   value: json,
