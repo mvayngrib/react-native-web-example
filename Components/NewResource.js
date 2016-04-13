@@ -436,7 +436,7 @@ class NewResource extends Component {
     this.postForms()
     .then((hash) => {
       this.state.submitted = false
-      let forms = window.Tradle.provider.products[Object.keys(window.Tradle.provider.products)[0]]
+      let forms = window.Tradle.provider.products[this.props.product]
       if (this.props.forms.length !== forms.length) {
         let m = utils.getModel(forms[this.props.forms.length])
         this.props.navigator.replace({
@@ -455,11 +455,13 @@ class NewResource extends Component {
           title: translate(m),
           id: 4,
           passProps: {
+            ...this.props,
             qrcode: hash + ':' + window.Tradle.provider.bot, //window.Tradle.provider.bot._r,
             model: m,
-            bankStyle: this.props.bankStyle,
-            currency: this.props.currency,
-            forms: this.props.forms
+            // bankStyle: this.props.bankStyle,
+            // currency: this.props.currency,
+            // forms: this.props.forms,
+            // product: this.props.product
           }
         })
       }

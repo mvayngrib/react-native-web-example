@@ -41,5 +41,8 @@
     "webpack-html-plugin": "0.1.1",
     "write-file-atomic": "^1.1.4",
     "xtend": "^4.0.1"
+  },
+  "dependencies": {
+    "querystring": "^0.2.0"
   }
 }
