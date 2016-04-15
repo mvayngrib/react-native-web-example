@@ -447,7 +447,7 @@ class NewResource extends Component {
     this.postForms()
     .then((hash) => {
       self.state.submitted = false
-      let forms = window.Tradle.provider.products[Object.keys(window.Tradle.provider.products)[0]]
+      let forms = window.Tradle.provider.products[self.props.product]
       // let m = utils.getModel(self.props.product)
       // forms = m.forms
       if (self.props.forms.length !== forms.length  &&  utils.getModel(forms[self.props.forms.length]).subClassOf !== 'tradle.MyProduct') {
