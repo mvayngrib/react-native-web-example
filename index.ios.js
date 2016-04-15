@@ -19,6 +19,8 @@ var {
 
 var t = require('tcomb-form-native')
 var voc = require('@tradle/models')
+var formDefaults = require('@tradle/models').formDefaults
+
 var utils = require('./utils/utils')
 var translate = utils.translate
 var NewResource = require('./Components/NewResource')
@@ -27,7 +29,6 @@ var ResourceList = require('./Components/ResourceList')
 var Form = t.form.Form;
 var EnumList = require('./Components/EnumList')
 var QRCodeView = require('./Components/QRCodeView')
-
 var Person = t.struct({
   name: t.String,
   surname: t.String
@@ -38,13 +39,15 @@ var Animal = t.struct({
 })
 var models = voc
 var options = {}; // optional rendering options (see documentation)
-
+var __DEV__ = true
 class ReactNativeWebExample extends Component {
   render() {
     utils.setModels(voc)
 
     let product = utils.firstKey(window.Tradle.provider.products)
     let forms = window.Tradle.provider.products[product]
+    // let m = utils.getModel(product)
+    // forms = m.forms
     let route = {
       component: NewResource,
       rightButtonTitle: translate('done'),
@@ -55,9 +58,13 @@ class ReactNativeWebExample extends Component {
         model: utils.getModel(forms[0]),
         forms: [],
         bankStyle: window.Tradle.provider.style,
+        __DEV__: true,
         currency: window.Tradle.provider.org.currency
       }
     }
+    if (__DEV__  &&  formDefaults[forms[0]])
+      route.passProps.resource = formDefaults[forms[0]]
+
     let style = window.Tradle.provider.style
     return (
       <Navigator

@@ -10,7 +10,7 @@ var NewResource = require('./NewResource');
 // var MessageList = require('./MessageList');
 // var MessageView = require('./MessageView')
 var utils = require('../utils/utils');
-var data = require('../data/data')
+var data = require('@tradle/models').data
 var translate = utils.translate
 var reactMixin = require('react-mixin');
 // var Store = require('../Store/Store');
@@ -65,8 +65,8 @@ class ResourceList extends Component {
       filter: this.props.filter,
       userInput: ''
     };
-
-    if (utils.getModel(this.props.modelName).subClassOf == ENUM) {
+    let m = utils.getModel(this.props.modelName)
+    if (m.subClassOf == ENUM) {
       let resources = data.getResources()
       let self = this
       let list = resources.filter(function(r) {
@@ -74,6 +74,14 @@ class ResourceList extends Component {
           return true
       })
       this.state.dataSource = this.state.dataSource.cloneWithRows(list)
+    }
+    else if (m.subClassOf == constants.TYPES.FORM) {
+      let forms = this.props.forms.filter((r) => {
+        if (r[constants.TYPE] === m.id)
+          return true
+      })
+      if (forms.length)
+        this.state.dataSource = this.state.dataSource.cloneWithRows(forms)
     }
 
     var isRegistration = this.props.isRegistration ||  (this.props.resource  &&  this.props.resource[constants.TYPE] === constants.TYPES.PROFILE  &&  !this.props.resource[constants.ROOT_HASH]);
@@ -210,7 +218,7 @@ class ResourceList extends Component {
     var model = utils.getModel(this.props.modelName);
     var isIdentity = this.props.modelName === constants.TYPES.PROFILE;
     var isVerification = model.id === constants.TYPES.VERIFICATION
-    var isForm = model.id === constants.TYPES.FORM
+    var isForm = model.subClassOf === constants.TYPES.FORM
     var isOrganization = this.props.modelName === constants.TYPES.ORGANIZATION;
     if (!isIdentity         &&
         !isOrganization     &&
@@ -275,6 +283,12 @@ class ResourceList extends Component {
         newTitle += newTitle.length ? ' ' + word : word;
       })
     }
+    if (this.props.prop) {
+      this.props.callback(this.props.prop, resource); // HACK for now
+      this.props.navigator.pop();
+
+      return;
+    }
 
     var route = {
       title: utils.makeTitle(newTitle),
@@ -294,12 +308,6 @@ class ResourceList extends Component {
     //   this.props.navigator.popToRoute(this.props.returnRoute);
     //   return;
     // }
-    if (this.props.prop) {
-      this.props.callback(this.props.prop, resource); // HACK for now
-      this.props.navigator.popToRoute(this.props.returnRoute);
-
-      return;
-    }
     if (me                       &&
        !model.isInterface  &&
        (resource[constants.ROOT_HASH] === me[constants.ROOT_HASH]  ||  resource[constants.TYPE] !== constants.TYPES.PROFILE)) {
@@ -386,9 +394,9 @@ class ResourceList extends Component {
     var model = utils.getModel(this.props.modelName);
  // || (model.id === constants.TYPES.FORM)
     var isVerification = model.id === constants.TYPES.VERIFICATION
-    var isForm = model.id === constants.TYPES.FORM
+    var isForm = model.subClassOf === constants.TYPES.FORM
     // let hasBacklink = this.props.prop && this.props.prop.items  &&  this.props.prop.backlink
-    return /*hasBacklink  &&*/  (isVerification  || isForm || (model.subClassOf  &&  (model.subClassOf === constants.TYPES.VERIFICATION  ||  model.subClassOf === constants.TYPES.FORM)))
+    return /*hasBacklink  &&*/  (isVerification  || isForm || model.subClassOf === constants.TYPES.VERIFICATION)
     ? (<VerificationRow
         onSelect={() => this.selectResource(isVerification ? resource.document : resource)}
         key={resource[constants.ROOT_HASH]}

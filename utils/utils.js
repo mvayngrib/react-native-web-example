@@ -222,14 +222,14 @@ var utils = {
   getImplementors(iModel, excludeModels) {
     var implementors = [];
     for (var p in models) {
-      var m = models[p].value;
+      var m = models[p];
       if (excludeModels) {
         var found = false
         for (var i=0; i<excludeModels.length && !found; i++) {
           if (p === excludeModels[i])
             found = true
           else {
-            var em = this.getModel(p).value
+            var em = this.getModel(p)
             if (em.subClassOf  &&  em.subClassOf === excludeModels[i])
               found = true;
           }
@@ -245,7 +245,7 @@ var utils = {
   getAllSubclasses(iModel) {
     var subclasses = [];
     for (var p in models) {
-      var m = models[p].value;
+      var m = models[p];
       if (m.subClassOf  &&  m.subClassOf === iModel)
         subclasses.push(m);
     }
@@ -299,14 +299,14 @@ var utils = {
       if (resource.title)
         return resource.title
       else
-        meta = this.getModel(resource[constants.TYPE]).value.properties
+        meta = this.getModel(resource[constants.TYPE]).properties
     }
     var displayName = '';
     for (var p in meta) {
       if (meta[p].displayName) {
         if (resource[p]) {
           if (meta[p].type == 'object') {
-            var title = resource[p].title || this.getDisplayName(resource[p], utils.getModel(resource[p][constants.TYPE]).value.properties);
+            var title = resource[p].title || this.getDisplayName(resource[p], utils.getModel(resource[p][constants.TYPE]).properties);
             displayName += displayName.length ? ' ' + title : title;
           }
           else
@@ -394,7 +394,7 @@ var utils = {
   },
 
   optimizeResource(res) {
-    var properties = this.getModel(res[TYPE]).value.properties
+    var properties = this.getModel(res[TYPE]).properties
     for (var p in res) {
       if (p.charAt(0) === '_'  ||  !properties[p])
         continue

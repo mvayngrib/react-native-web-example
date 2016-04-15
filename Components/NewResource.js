@@ -17,6 +17,7 @@ var Icon = require('react-native-vector-icons/Ionicons');
 var rStyles = require('../styles/registrationStyles');
 var NewResourceMixin = require('./NewResourceMixin');
 var reactMixin = require('react-mixin');
+var formDefaults = require('@tradle/models').formDefaults
 // var BG_IMAGE = require('../img/bg.png')
 var equal = require('deep-equal')
 var DeviceHeight
@@ -445,11 +446,13 @@ class NewResource extends Component {
     this.props.forms.push(r)
     this.postForms()
     .then((hash) => {
-      this.state.submitted = false
-      let forms = window.Tradle.provider.products[this.props.product]
-      if (this.props.forms.length !== forms.length) {
-        let m = utils.getModel(forms[this.props.forms.length])
-        this.props.navigator.replace({
+      self.state.submitted = false
+      let forms = window.Tradle.provider.products[Object.keys(window.Tradle.provider.products)[0]]
+      // let m = utils.getModel(self.props.product)
+      // forms = m.forms
+      if (self.props.forms.length !== forms.length  &&  utils.getModel(forms[self.props.forms.length]).subClassOf !== 'tradle.MyProduct') {
+        let m = utils.getModel(forms[self.props.forms.length])
+        self.props.navigator.replace({
           component: NewResource,
           rightButtonTitle: translate('done'),
           backButtonTitle: translate('continueOnMobile'),
@@ -467,7 +470,8 @@ class NewResource extends Component {
           passProps: {
             ...this.props,
             qrcode: hash + ':' + window.Tradle.provider.bot, //window.Tradle.provider.bot._r,
-            model: m
+            model: m,
+            resource: self.props.__DEV__  &&  formDefaults[m.id] ? formDefaults[m.id] : null
           }
         })
       }
@@ -477,8 +481,8 @@ class NewResource extends Component {
           title: translate('switchToMobile'),
           id: 23,
           passProps: {
+            ...this.props,
             qrcode: hash + ':' + Tradle.provider.bot, //window.Tradle.provider.bot._r,,
-            bankStyle: self.props.bankStyle
           }
         })
       }
@@ -648,14 +652,14 @@ class NewResource extends Component {
         count = resource[bl.name].length
         if (count) {
           itemsArray = <Text style={count ? styles.itemsText : styles.noItemsText}>{translate(bl, meta)}</Text>
-          counter = <View style={{paddingHorizontal: 5}}>
-                      <Text style={{color: (this.props.bankStyle  &&  this.props.bankStyle.LINK_COLOR) || '#a94442', fontSize: 18}}>{'+'}</Text>
+          counter = <View style={styles.itemsCounter}>
+                      <Text style={{color: (this.props.bankStyle  &&  this.props.bankStyle.LINK_COLOR) || '#a94442', fontSize: 18}}>{count}</Text>
                     </View>
         }
       }
       else {
         itemsArray = <Text style={count ? styles.itemsText : styles.noItemsText}>{translate(bl, meta)}</Text>
-        counter = <View style={{paddingHorizontal: 5}}>
+        counter = <View style={{paddingTop: 20, marginRight: 5}}>
                       <Text style={{color: (this.props.bankStyle  &&  this.props.bankStyle.LINK_COLOR) || '#a94442', fontSize: 18}}>{'+'}</Text>
                   </View>
       }
@@ -670,19 +674,21 @@ class NewResource extends Component {
                   </View>
                 : <View/>
       var actionableItem = isPhoto && count
-                         ?  <TouchableHighlight underlayColor='transparent'
+                         ?  <TouchableHighlight style={{paddingTop: 20}} underlayColor='transparent'
                              onPress={self.showItems.bind(self, bl, meta)}>
                             {itemsArray}
                           </TouchableHighlight>
-                         : <TouchableHighlight underlayColor='transparent'
+                         : <TouchableHighlight style={{paddingTop: 20}} underlayColor='transparent'
                                 onPress={self.onNewPressed.bind(self, bl, meta)}>
                             {itemsArray}
                           </TouchableHighlight>
       arrayItems.push (
         <View style={styles.itemButton} key={this.getNextKey()} ref={bl.name}>
           <View style={styles.items}>
-            {actionableItem}
-            <TouchableHighlight underlayColor='transparent'
+            <View style={{flex: 5}}>
+              {actionableItem}
+            </View>
+            <TouchableHighlight underlayColor='transparent' style={count ? {paddingTop: 20} : {paddingTop: 0}}
                 onPress={self.onNewPressed.bind(self, bl, meta)}>
               {counter}
             </TouchableHighlight>
@@ -909,13 +915,13 @@ var styles = StyleSheet.create({
   noItemsText: {
     fontSize: 18,
     color: '#b1b1b1',
-    alignSelf: 'center',
+    // alignSelf: 'center',
     // paddingLeft: 10
   },
   itemsText: {
     fontSize: 20,
     color: '#000000',
-    alignSelf: 'center',
+    // alignSelf: 'center',
     // paddingLeft: 10
   },
   itemsCounter: {
