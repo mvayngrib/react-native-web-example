@@ -20,6 +20,8 @@ var extend = require('extend');
 var DEFAULT_CURRENCY_SYMBOL = '£';
 var CURRENCY_SYMBOL
 var ENUM = 'tradle.Enum'
+var FORM = 'tradle.Form'
+
 // var Picker = require('react-native-picker')
 // var NewDatePicker = require('./NewDatePicker')
 
@@ -116,6 +118,8 @@ var NewResourceMixin = {
       // Don't show readOnly property in edit mode if not set
       if (props[p].readOnly) //  &&  (type === 'date'  ||  !data  ||  !data[p]))
         continue;
+      if (props[p].ref  &&  utils.getModel(props[p].ref).subClassOf === FORM)
+        continue
 
       var label = translate(props[p], meta) //props[p].title;
       if (!label)
@@ -294,6 +298,7 @@ var NewResourceMixin = {
           options.fields[p].onEndEditing = onEndEditing.bind(this, p);
           continue;
         }
+
         model[p] = maybe ? t.maybe(t.Str) : t.Str;
 
         var subModel = models[ref];

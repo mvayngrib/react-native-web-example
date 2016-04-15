@@ -366,6 +366,9 @@ class NewResource extends Component {
         var prop = self.props.model.properties[p]
         if (prop.items  &&  (prop.items.backlink || prop.name === 'photos' || prop.items.ref))
           return
+        if (prop.ref  &&  utils.getModel(prop.ref).subClassOf === 'tradle.Form')
+          return
+
         if ((prop.ref) ||  isDate  ||  prop.items) {
           if (resource && resource[p])
             return;
