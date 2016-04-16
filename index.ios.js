@@ -4,6 +4,7 @@
  */
 'use strict';
 
+import 'whatwg-fetch'
 var React = require('react-native');
 var {
   AppRegistry,

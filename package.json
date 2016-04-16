@@ -44,6 +44,7 @@
   },
   "dependencies": {
     "@tradle/models": "^4.8.0",
-    "querystring": "^0.2.0"
+    "querystring": "^0.2.0",
+    "whatwg-fetch": "^0.11.0"
   }
 }
