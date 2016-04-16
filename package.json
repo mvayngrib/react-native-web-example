@@ -1,6 +1,6 @@
 {
   "name": "@tradle/web-example",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "scripts": {
     "start": "react-native start",
     "postinstall": "./hack.js"
@@ -44,6 +44,5 @@
     "write-file-atomic": "^1.1.4",
     "xtend": "^4.0.1"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
