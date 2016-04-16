@@ -40,7 +40,8 @@ var Animal = t.struct({
 })
 var models = voc
 var options = {}; // optional rendering options (see documentation)
-var __DEV__ = true
+if (!('__DEV__' in window)) window.__DEV__ = false
+
 class ReactNativeWebExample extends Component {
   render() {
     utils.setModels(voc)
@@ -59,7 +60,6 @@ class ReactNativeWebExample extends Component {
         model: utils.getModel(forms[0]),
         forms: [],
         bankStyle: window.Tradle.provider.style,
-        __DEV__: true,
         currency: window.Tradle.provider.org.currency
       }
     }

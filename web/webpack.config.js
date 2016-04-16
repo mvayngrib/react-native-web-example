@@ -47,19 +47,19 @@ module.exports = {
       platform: 'web',
       nodeModules: ['react-web']
     }),
-    new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': JSON.stringify(isProd? PROD: DEV),
-      },
-      // Tradle: {
-      //   provider: {
-      //     org: {
-      //       currency: '$'
-      //     },
-      //     style: {}
-      //   }
-      // }
-    }),
+    // new webpack.DefinePlugin({
+    //   'process.env': {
+    //     'NODE_ENV': JSON.stringify(isProd? PROD: DEV),
+    //   },
+    //   // Tradle: {
+    //   //   provider: {
+    //   //     org: {
+    //   //       currency: '$'
+    //   //     },
+    //   //     style: {}
+    //   //   }
+    //   // }
+    // }),
     new webpack.ProvidePlugin({
       React: "react"
     }),

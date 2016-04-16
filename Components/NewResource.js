@@ -474,7 +474,7 @@ class NewResource extends Component {
             ...this.props,
             qrcode: hash + ':' + window.Tradle.provider.bot, //window.Tradle.provider.bot._r,
             model: m,
-            resource: self.props.__DEV__  &&  formDefaults[m.id] ? formDefaults[m.id] : null
+            resource: __DEV__  &&  formDefaults[m.id] ? formDefaults[m.id] : null
           }
         })
       }
