@@ -19,7 +19,7 @@ class QRCodeView extends Component {
     var code = qrcode(this.props.qrcode, {
       width: 300,
       height: 300,
-      foreground: this.props.bankStyle.LINK_COLOR
+      foreground: this.props.bankStyle.STRUCTURED_MESSAGE_COLOR
     })
 
     return (
