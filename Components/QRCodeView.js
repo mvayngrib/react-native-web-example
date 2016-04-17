@@ -16,13 +16,19 @@ class QRCodeView extends Component {
     super(props);
   }
   render() {
+    var code = qrcode(this.props.qrcode, {
+      width: 300,
+      height: 300,
+      foreground: this.props.bankStyle.LINK_COLOR
+    })
+
     return (
       <View  ref='this' style={styles.container}>
         <View style={{position: 'absolute', top: 20, left: 20}}>
           <Image source={{uri: 'http://tradle.io/images/scan-qr-tutorial1.gif'}} style={{width: 300}} />
         </View>
         <View style={{left: (Dimensions.get('window').width/2) - 150, position: 'absolute', top: 20}}>
-          {qrcode(this.props.qrcode, { width: 300, height: 300})}
+          {code}
         </View>
       </View>
     );

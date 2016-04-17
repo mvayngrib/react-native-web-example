@@ -727,7 +727,7 @@ class NewResource extends Component {
     if (this.props.qrcode) {
       st.marginTop = -180
       qrCode = <View style={{margin: 20}}>
-              {qrcode(this.props.qrcode, { width: 140, height: 140})}
+              {qrcode(this.props.qrcode, { width: 140, height: 140, foreground: this.props.bankStyle.LINK_COLOR })}
             </View>
     }
     else
