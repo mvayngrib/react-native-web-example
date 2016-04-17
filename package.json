@@ -1,6 +1,6 @@
 {
   "name": "@tradle/web-example",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "scripts": {
     "start": "react-native start",
     "postinstall": "./hack.js"
