@@ -29,9 +29,9 @@
     "addServerUrl": "Add server url",
     "search": "Search",
     "listOfProducts": "Click for a list of products",
-    "hello": "Hello {1}!",
+    "hello": "Hello {1}!",  // {1} is the first name of the customer
     "testForgetMe": "This is a test mechanism to reset all communications with this provider",
-    "confirmForgetMe": "Are you sure you want '{1}' to forget you",
+    "confirmForgetMe": "Are you sure you want '{1}' to forget you", //{1} is the bank name
     "forgetMe": "Forget me",
     "iNeed": "I need...",
     "LivingWithParents": "Living with parents",
@@ -53,17 +53,22 @@
     "Work": "Work",
     "newProduct": "New product",
     "tapToRemovePhotos": "Tap to remove photos",
-    "addNew": "Add new {1}",
+    "addNew": "Add new {1}", // {1} is items property type like 'tradle.Profile' for property 'contacts' of 'tradle.Organization'
     "switchToRepresentative": "Switching to representative mode is not yet implemented.",
     "fillTheForm": "Please fill out this form and attach a snapshot of the original document",
     "verifiedBy": "Verified by {1}",
+    "issuedBy": "Issued by {1}",
     "typeMessage": "Type a message",
     "newProductMsg": "{1}, we're very happy to assist you with your application for {2}. Please hold just a moment.",
     "shareOne": "{1}, this is your personal privacy assistant. I see you've already had your {2} verified. You can tap below to share it with {3}.",
     "shareOneOfMany": "{1}, this is your personal privacy assistant. I see you've already had your {2} verified. You can tap on any items in the list below to share them with {3}.",
     "verificationTransactionID": "Verification Transaction Id",
+    "scanQRcode": "Scan QR code",
     "setDateValue": "Set",
-    "switchToMobile": "Please scan this QR code with your Tradle app and upload the supporting documents",
-    "pleaseFillOutTheForm": "Please fill out the form: {1}",
-    "continueOnMobile": "Continue on mobile"
+    "add": "Add {1}",
+    "myDocuments": "My Documents",
+    "shareMyProduct": "I see you've already had your {1} verified",
+    "confirmRevoke": "Are you sure you want to revoke access to {1}",
+    "shareProduct": "I see you\\'ve already had your {1} verified",
+    "willBeAvailable": "This functionality will be available soon"
 }
