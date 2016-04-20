@@ -29,9 +29,9 @@
     "addServerUrl": "Add server url",
     "search": "Search",
     "listOfProducts": "Click for a list of products",
-    "hello": "Hello {1}!",  // {1} is the first name of the customer
+    "hello": "Hello {1}!",
     "testForgetMe": "This is a test mechanism to reset all communications with this provider",
-    "confirmForgetMe": "Are you sure you want '{1}' to forget you", //{1} is the bank name
+    "confirmForgetMe": "Are you sure you want '{1}' to forget you",
     "forgetMe": "Forget me",
     "iNeed": "I need...",
     "LivingWithParents": "Living with parents",
@@ -53,7 +53,7 @@
     "Work": "Work",
     "newProduct": "New product",
     "tapToRemovePhotos": "Tap to remove photos",
-    "addNew": "Add new {1}", // {1} is items property type like 'tradle.Profile' for property 'contacts' of 'tradle.Organization'
+    "addNew": "Add new {1}",
     "switchToRepresentative": "Switching to representative mode is not yet implemented.",
     "fillTheForm": "Please fill out this form and attach a snapshot of the original document",
     "verifiedBy": "Verified by {1}",
