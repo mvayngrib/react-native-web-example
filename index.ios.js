@@ -48,6 +48,14 @@ class ReactNativeWebExample extends Component {
 
     let product = utils.firstKey(window.Tradle.provider.products)
     let forms = window.Tradle.provider.products[product]
+    if (forms.indexOf('tradle.MortgageDetail') !== -1 || forms.indexOf('tradle.ORV') !== -1) {
+      // hack for mortgage to not ask for personal info
+      const piIdx = forms.indexOf('tradle.PersonalInfo')
+      if (piIdx !== -1) {
+        forms.splice(piIdx, 1)
+      }
+    }
+
     // let m = utils.getModel(product)
     // forms = m.forms
     let route = {
