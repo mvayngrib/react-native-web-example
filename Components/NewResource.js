@@ -23,7 +23,7 @@ var equal = require('deep-equal')
 var DeviceHeight
 var DeviceWidth
 var constants = require('@tradle/constants');
-// var delayedRegistration
+var WEB_TO_MOBILE = '0'
 var LINK_COLOR, DEFAULT_LINK_COLOR = '#a94442'
 
 // var Modal = require('react-native-modal')
@@ -278,7 +278,8 @@ class NewResource extends Component {
         passProps: {
           model: self.props.model,
           resource: resource,
-          currency: this.props.currency
+          currency: this.props.currency,
+          bankStyle: this.props.bankStyle
         }
       },
       passProps: {
@@ -333,7 +334,7 @@ class NewResource extends Component {
             delete json[p]
           }
           else if (self.props.model.properties[p].type === 'date') {
-            let d = utils.parseDate(v)
+            let d = new Date(moment(utils.parseDate(v)).format('MM/DD/YYYY'))
             if (isNaN(d.getTime())) {
               missedRequiredOrErrorValue[p] = translate('thisFieldIsRequired')
               delete resource[p]
@@ -464,7 +465,7 @@ class NewResource extends Component {
             title: translate('switchToMobile'),
             id: 23,
             passProps: {
-              qrcode: hash + ':' + window.Tradle.provider.bot,
+              qrcode: WEB_TO_MOBILE + ';' + hash + ';' + window.Tradle.provider.bot[constants.ROOT_HASH],
               bankStyle: self.props.bankStyle
             }
           },
@@ -472,7 +473,7 @@ class NewResource extends Component {
           id: 4,
           passProps: {
             ...this.props,
-            qrcode: hash + ':' + window.Tradle.provider.bot, //window.Tradle.provider.bot._r,
+            qrcode: WEB_TO_MOBILE + ';' + hash + ';' + window.Tradle.provider.bot[constants.ROOT_HASH], //window.Tradle.provider.bot._r,
             model: m,
             resource: __DEV__  &&  formDefaults[m.id] ? formDefaults[m.id] : null
           }
@@ -485,7 +486,7 @@ class NewResource extends Component {
           id: 23,
           passProps: {
             ...this.props,
-            qrcode: hash + ':' + Tradle.provider.bot, //window.Tradle.provider.bot._r,,
+            qrcode: WEB_TO_MOBILE + ';' + hash + ';' + Tradle.provider.bot[constants.ROOT_HASH], //window.Tradle.provider.bot._r,,
           }
         })
       }
@@ -736,7 +737,7 @@ class NewResource extends Component {
     if (window.Tradle.provider.org.photos[0]) {
       // st.marginTop = -180
       img = <View style={{position: 'absolute', top: 100, right: 0}}>
-              <Image source={{uri: window.Tradle.provider.org.photos[0].url}} style={{width: 300, opacity: 0.07}} />
+              <Image source={{uri: window.Tradle.provider.org.photos[0].url}} style={{width: 300, borderRadius: 150, borderColor: 'transparent', opacity: 0.07}} />
             </View>
     }
     else
