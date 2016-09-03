@@ -45,6 +45,6 @@
     "xtend": "^4.0.1"
   },
   "dependencies": {
-    "@tradle/models": "^4.8.4"
+    "@tradle/models": "tradle/models"
   }
 }
