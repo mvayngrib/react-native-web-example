@@ -2,10 +2,13 @@
   "name": "@tradle/web-example",
   "version": "1.3.0",
   "dependencies": {
+    "@tradle/constants": {
+      "version": "2.0.3"
+    },
     "@tradle/models": {
       "version": "4.10.9",
-      "from": "git+https://github.com/tradle/models.git#996644ee33b2558c1a64562730b768303cc0376d",
-      "resolved": "git+https://github.com/tradle/models.git#996644ee33b2558c1a64562730b768303cc0376d"
+      "from": "git://github.com/tradle/models.git#996644ee33b2558c1a64562730b768303cc0376d",
+      "resolved": "git://github.com/tradle/models.git#996644ee33b2558c1a64562730b768303cc0376d"
     },
     "abbrev": {
       "version": "1.0.9"
@@ -389,6 +392,14 @@
         },
         "core-js": {
           "version": "2.4.1"
+        }
+      }
+    },
+    "babel-loader": {
+      "version": "5.1.3",
+      "dependencies": {
+        "object-assign": {
+          "version": "2.1.1"
         }
       }
     },
@@ -1963,6 +1974,9 @@
     "envify": {
       "version": "3.4.1"
     },
+    "equal": {
+      "version": "0.1.1"
+    },
     "errno": {
       "version": "0.1.4"
     },
@@ -2610,6 +2624,9 @@
         }
       }
     },
+    "haste-resolver-webpack-plugin": {
+      "version": "0.1.2"
+    },
     "hawk": {
       "version": "3.1.3"
     },
@@ -2964,6 +2981,9 @@
     },
     "jsesc": {
       "version": "1.3.0"
+    },
+    "json-loader": {
+      "version": "0.5.2"
     },
     "json-schema": {
       "version": "0.2.3"
@@ -3709,6 +3729,14 @@
     "q": {
       "version": "1.4.1"
     },
+    "qr-element": {
+      "version": "0.0.0",
+      "dependencies": {
+        "xtend": {
+          "version": "2.0.3"
+        }
+      }
+    },
     "qr.js": {
       "version": "0.0.0"
     },
@@ -3767,8 +3795,149 @@
       "from": "react-deep-force-update@>=1.0.0 <2.0.0",
       "resolved": "https://registry.npmjs.org/react-deep-force-update/-/react-deep-force-update-1.0.1.tgz"
     },
+    "react-dom": {
+      "version": "0.14.7"
+    },
     "react-hot-api": {
       "version": "0.4.7"
+    },
+    "react-hot-loader": {
+      "version": "1.2.7",
+      "dependencies": {
+        "source-map": {
+          "version": "0.1.40",
+          "from": "source-map@0.1.40",
+          "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.1.40.tgz"
+        }
+      }
+    },
+    "react-mixin": {
+      "version": "3.0.5",
+      "dependencies": {
+        "object-assign": {
+          "version": "4.1.0"
+        }
+      }
+    },
+    "react-native": {
+      "version": "0.18.0",
+      "from": "git+https://github.com/tradle/react-native.git#e6de7f33aa7cd689dbb6f98f714ab748488169f9",
+      "resolved": "git+https://github.com/tradle/react-native.git#e6de7f33aa7cd689dbb6f98f714ab748488169f9",
+      "dependencies": {
+        "babel-core": {
+          "version": "6.18.2",
+          "from": "babel-core@>=6.1.20 <7.0.0",
+          "resolved": "https://registry.npmjs.org/babel-core/-/babel-core-6.18.2.tgz",
+          "dependencies": {
+            "json5": {
+              "version": "0.5.1",
+              "from": "json5@>=0.5.0 <0.6.0",
+              "resolved": "https://registry.npmjs.org/json5/-/json5-0.5.1.tgz"
+            },
+            "source-map": {
+              "version": "0.5.6",
+              "from": "source-map@>=0.5.0 <0.6.0",
+              "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.5.6.tgz"
+            }
+          }
+        },
+        "babel-runtime": {
+          "version": "6.18.0",
+          "from": "babel-runtime@>=6.9.1 <7.0.0",
+          "resolved": "https://registry.npmjs.org/babel-runtime/-/babel-runtime-6.18.0.tgz"
+        },
+        "babylon": {
+          "version": "6.14.1",
+          "from": "babylon@>=6.1.2 <7.0.0",
+          "resolved": "https://registry.npmjs.org/babylon/-/babylon-6.14.1.tgz"
+        },
+        "core-js": {
+          "version": "2.4.1",
+          "from": "core-js@>=2.4.0 <3.0.0",
+          "resolved": "https://registry.npmjs.org/core-js/-/core-js-2.4.1.tgz"
+        },
+        "esprima-fb": {
+          "version": "15001.1001.0-dev-harmony-fb",
+          "from": "esprima-fb@>=15001.1001.0-dev-harmony-fb <15001.1002.0",
+          "resolved": "https://registry.npmjs.org/esprima-fb/-/esprima-fb-15001.1001.0-dev-harmony-fb.tgz"
+        },
+        "lodash": {
+          "version": "4.17.2",
+          "from": "lodash@>=4.2.0 <5.0.0",
+          "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.17.2.tgz"
+        },
+        "minimatch": {
+          "version": "3.0.3",
+          "from": "minimatch@>=3.0.2 <4.0.0",
+          "resolved": "https://registry.npmjs.org/minimatch/-/minimatch-3.0.3.tgz"
+        },
+        "recast": {
+          "version": "0.10.33",
+          "from": "recast@0.10.33",
+          "resolved": "https://registry.npmjs.org/recast/-/recast-0.10.33.tgz",
+          "dependencies": {
+            "source-map": {
+              "version": "0.5.6",
+              "from": "source-map@>=0.5.0 <0.6.0",
+              "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.5.6.tgz"
+            }
+          }
+        },
+        "regenerator": {
+          "version": "0.8.46",
+          "from": "regenerator@>=0.8.36 <0.9.0",
+          "resolved": "https://registry.npmjs.org/regenerator/-/regenerator-0.8.46.tgz"
+        },
+        "source-map": {
+          "version": "0.4.4",
+          "from": "source-map@>=0.4.4 <0.5.0",
+          "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.4.4.tgz"
+        }
+      }
+    },
+    "react-native-accordion": {
+      "version": "0.2.4"
+    },
+    "react-native-barcode": {
+      "version": "0.2.2",
+      "from": "git+https://github.com/tradle/react-native-barcode.git#4f849f7880abc65765602d1c801c8052f1379415",
+      "resolved": "git+https://github.com/tradle/react-native-barcode.git#4f849f7880abc65765602d1c801c8052f1379415"
+    },
+    "react-native-cli": {
+      "version": "0.1.10",
+      "dependencies": {
+        "ansi-regex": {
+          "version": "2.0.0"
+        },
+        "chalk": {
+          "version": "1.1.3"
+        },
+        "strip-ansi": {
+          "version": "3.0.1"
+        },
+        "supports-color": {
+          "version": "2.0.0"
+        }
+      }
+    },
+    "react-native-floating-label-text-input": {
+      "version": "0.0.8",
+      "from": "git+https://github.com/pgmemk/react-native-floating-label-text-input.git#1fb3af592736642cda70f827a7665376738d9676",
+      "resolved": "git+https://github.com/pgmemk/react-native-floating-label-text-input.git#1fb3af592736642cda70f827a7665376738d9676"
+    },
+    "react-native-floating-labels": {
+      "version": "1.1.2"
+    },
+    "react-native-localization": {
+      "version": "0.1.22"
+    },
+    "react-native-vector-icons": {
+      "version": "1.3.4",
+      "dependencies": {
+        "lodash": {
+          "version": "4.17.2"
+        }
+      }
     },
     "react-proxy": {
       "version": "1.1.8",
@@ -4219,6 +4388,9 @@
     "setprototypeof": {
       "version": "1.0.2"
     },
+    "sha.js": {
+      "version": "2.4.8"
+    },
     "shebang-regex": {
       "version": "1.0.0"
     },
@@ -4308,7 +4480,21 @@
       "version": "0.1.7"
     },
     "source-map": {
-      "version": "0.1.40"
+      "version": "0.5.6",
+      "from": "source-map@0.5.6",
+      "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.5.6.tgz"
+    },
+    "source-map-loader": {
+      "version": "0.1.5",
+      "from": "source-map-loader@latest",
+      "resolved": "https://registry.npmjs.org/source-map-loader/-/source-map-loader-0.1.5.tgz",
+      "dependencies": {
+        "source-map": {
+          "version": "0.1.43",
+          "from": "source-map@>=0.1.33 <0.2.0",
+          "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.1.43.tgz"
+        }
+      }
     },
     "source-map-support": {
       "version": "0.2.10",
@@ -4530,6 +4716,9 @@
     },
     "tcomb": {
       "version": "2.7.0"
+    },
+    "tcomb-form-native": {
+      "version": "0.4.4"
     },
     "tcomb-validation": {
       "version": "2.3.0"
@@ -4935,6 +5124,34 @@
         }
       }
     },
+    "webpack": {
+      "version": "1.9.10",
+      "dependencies": {
+        "camelcase": {
+          "version": "1.2.1"
+        },
+        "source-map": {
+          "version": "0.1.34"
+        },
+        "uglify-js": {
+          "version": "2.4.24",
+          "dependencies": {
+            "async": {
+              "version": "0.2.10"
+            }
+          }
+        },
+        "window-size": {
+          "version": "0.1.0"
+        },
+        "wordwrap": {
+          "version": "0.0.2"
+        },
+        "yargs": {
+          "version": "3.5.4"
+        }
+      }
+    },
     "webpack-core": {
       "version": "0.6.8",
       "dependencies": {
@@ -4957,6 +5174,12 @@
         }
       }
     },
+    "webpack-dev-server": {
+      "version": "1.9.0"
+    },
+    "webpack-html-plugin": {
+      "version": "0.1.1"
+    },
     "websocket-driver": {
       "version": "0.6.5",
       "from": "websocket-driver@>=0.5.1",
@@ -4966,6 +5189,9 @@
       "version": "0.1.1",
       "from": "websocket-extensions@>=0.1.1",
       "resolved": "https://registry.npmjs.org/websocket-extensions/-/websocket-extensions-0.1.1.tgz"
+    },
+    "whatwg-fetch": {
+      "version": "0.11.1"
     },
     "which": {
       "version": "1.2.12",

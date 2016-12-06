@@ -5,8 +5,6 @@ var webpack = require('webpack');
 var HtmlPlugin = require('webpack-html-plugin');
 var HasteResolverPlugin = require('haste-resolver-webpack-plugin');
 
-var IP = '0.0.0.0';
-var PORT = 3000;
 var NODE_ENV = process.env.NODE_ENV;
 var ROOT_PATH = path.resolve(__dirname, '..');
 var PROD = 'production';
@@ -21,8 +19,6 @@ var config = {
 };
 
 module.exports = {
-  ip: IP,
-  port: PORT,
   devtool: 'source-map',
   resolve: {
     alias: {
@@ -34,7 +30,7 @@ module.exports = {
   entry: isProd? [
     config.paths.index
   ]: [
-    'webpack-dev-server/client?http://' + IP + ':' + PORT,
+    'webpack-dev-server/client',
     // 'webpack/hot/only-dev-server',
     config.paths.index,
   ],
@@ -73,6 +69,12 @@ module.exports = {
     }),
   ],
   module: {
+    preLoaders: [
+      {
+        test: /\.js$/,
+        loader: 'source-map-loader'
+      }
+    ],
     loaders: [{
       test: /\.json$/,
       loader: 'json',
