@@ -68,7 +68,8 @@ module.exports = {
     // }): new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
     new HtmlPlugin({
-      template: 'index-template.html'
+      template: path.resolve(ROOT_PATH, 'index-template.html'),
+      filename: 'index.html'
     }),
   ],
   module: {
