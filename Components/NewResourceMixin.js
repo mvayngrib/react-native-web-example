@@ -100,8 +100,20 @@ var NewResourceMixin = {
         editCols[r] = props[r];
       })
     }
-    else
-      editCols = utils.arrayToObject(meta.editCols);
+    else if (meta.editCols) {
+      utils.arrayToObject(meta.editCols);
+      editCols = {}
+      meta.editCols.forEach((p) => {
+        let idx = p.indexOf('_group')
+        if (idx === -1  ||  !props[p].list || props[p].title.toLowerCase() !== p)
+          editCols[p] = props[p]
+
+        if (idx !== -1  &&  props[p].list)
+          props[p].list.forEach((p) => editCols[p] = props[p])
+      })
+    }
+    // else if (meta.editCols)
+    //   editCols = utils.arrayToObject(meta.editCols);
 
     var eCols = editCols ? editCols : props;
     var required = utils.arrayToObject(meta.required);
@@ -197,7 +209,14 @@ var NewResourceMixin = {
             options.fields[p].auto = 'labels';
           }
         }
-        if (!options.fields[p].multiline && (type === 'string'  ||  type === 'number' || type === 'date')) {
+        if (type === 'string'  &&  p.length > 7  &&  p.indexOf('_group') === p.length - 6) {
+          options.fields[p].template = this.myTextTemplate.bind(this, {
+                    label: label,
+                    prop:  props[p],
+                    model: meta,
+                  })
+        }
+        else if (!options.fields[p].multiline && (type === 'string'  ||  type === 'number' || type === 'date')) {
           options.fields[p].template = this.myTextInputTemplate.bind(this, {
                     label: label,
                     prop:  props[p],
@@ -371,6 +390,15 @@ var NewResourceMixin = {
     // for (var p in this.floatingProps)
     //   r[p] = this.floatingProps[p]
     // Actions.saveTemporary(r)
+  },
+  myTextTemplate(params) {
+    var label = translate(params.prop, params.model)
+
+    return (
+      <View style={[styles.divider, {borderBottomColor: LINK_COLOR}]}>
+        <Text style={[styles.dividerText, {color: LINK_COLOR}]}>{label}</Text>
+      </View>
+    );
   },
   myTextInputTemplate(params) {
     // return <View />
