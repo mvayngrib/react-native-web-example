@@ -44,7 +44,7 @@ let langToLocale = {
 }
 
 let searchStr = (window.location.search || '').slice(1)
-let defaultLanguage = parseQuerystring(searchStr).lang || 'nl'; //new LocalizedStrings({ en: {}, nl: {} }).getLanguage()
+let defaultLanguage = parseQuerystring(searchStr).lang || 'en'; //new LocalizedStrings({ en: {}, nl: {} }).getLanguage()
 let currentLanguage
 let currentLocale
 let strings
